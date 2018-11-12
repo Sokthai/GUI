@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>HW 6</title>
+    <script src="script/script.js"></script>
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+
+<body>
+        
+    <div class="form">
+            <h2>Muliplication Table</h2>
+        <span id="message"></span>
+        <div class="input">
+            <div class="col-30">
+                <label for="h1">Horizonal start</label>
+            </div>
+            <div class="col-70">
+                <input type="text" id="h1" onkeyup="validateNumber('h1')"/>
+            </div>
+        </div>
+
+        <div class="input">
+            <div class="col-30">
+                <label for="h2">Horizonal end</label>
+            </div>
+            <div class="col-70">
+                <input type="text" id="h2" onkeyup="validateNumber('h2')" />
+            </div>
+        </div>
+
+        <div class="input">
+            <div class="col-30">
+                <label for="v1">Vertical start</label>
+            </div>
+            <div class="col-70">
+                <input type="text" id="v1" onkeyup="validateNumber('v1')"/>
+            </div>
+        </div>
+
+        <div class="input">
+            <div class="col-30">
+                <label for="v2">Vertical end</label>
+            </div>
+            <div class="col-70">
+                <input type="text" id="v2" onkeyup="validateNumber('v2')"/>
+            </div>
+        </div>
+
+        <input type="submit" id="submit" value="Submit" onclick="generateTable()" />
+    </div>
+
+</body>
+
+</html>
