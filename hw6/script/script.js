@@ -45,7 +45,8 @@ function generateTable(){
         tbody.appendChild(tr); // appending row
     }
     table.appendChild(tbody); 
-    document.body.appendChild(table); // add table to body
+    document.getElementById('table').appendChild(table);
+    // document.body.appendChild(table); // add table to body
 }
 
 function validation(hs, he, vs, ve){
