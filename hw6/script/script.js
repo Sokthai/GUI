@@ -69,7 +69,7 @@ function validation(hs, he, vs, ve){
 
     // set the range of the value less than 400. End - start <= 400
     if((+he - +hs) > 400 || (+ve - +vs) > 400){
-        document.getElementById("message").innerHTML = "You exceed the allow range. END - START <=500";
+        document.getElementById("message").innerHTML = "You exceed the allow range. END - START <= 400";
         document.getElementById("message").style.display = "block";
         return false;
     }
