@@ -112,6 +112,8 @@ input[type="submit"]:hover{
     background-color: rgb(9, 53, 9);
     color: rgb(197, 56, 5);
     font-weight: bold;
+    /* height: 100px; */
+    width: 30px;
 }
 
 h2{
@@ -136,9 +138,17 @@ h2{
     margin: auto;
 }
 
+
+p{
+    padding-top: 30px;
+    width: 400px;
+    text-align: justify;
+    margin: auto;
+}
+
 /* make form readable when resizing */
 @media screen and (max-width : 500px){
-    .form{
+    .form, p{
         width: 90%;
     }
     .col-30 > label{
