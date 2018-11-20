@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>HW 6</title>
+    <!-- <script src="script/script.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="script/jquery.js"></script>
+</head>
+
+<body>
+
+    <p>Please provide a start and end number to generate the Multiplication table.
+        The range is 400 across and it can take negetive number
+    </p>
+    
+
+
+    <div class="form">
+        <h2>Multiplication Table</h2>
+        <div style="height: 10px;"><span id="message"></span></div>
+        <div class="input">
+            <div class="col-30">
+                <label for="h1">Horizonal start</label>
+            </div>
+            <div class="col-70">
+                <input type="text" id="h1" />
+            </div>
+        </div>
+
+        <div class="input">
+            <div class="col-30">
+                <label for="h2">Horizonal end</label>
+            </div>
+            <div class="col-70">
+                <input type="text" id="h2" />
+            </div>
+        </div>
+
+        <div class="input">
+            <div class="col-30">
+                <label for="v1">Vertical start</label>
+            </div>
+            <div class="col-70">
+                <input type="text" id="v1"  />
+            </div>
+        </div>
+
+        <div class="input">
+            <div class="col-30">
+                <label for="v2">Vertical end</label>
+            </div>
+            <div class="col-70">
+                <input type="text" id="v2"  />
+            </div>
+        </div>
+
+        <button type="submit" id="submit" value="Submit" >Submit</button>
+    </div>
+    <div id="table"></div>
+</body>
+
+</html>
