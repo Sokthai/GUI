@@ -51,6 +51,10 @@ span{
     color: red;
     text-transform: capitalize;
     text-align: center;
+<<<<<<< HEAD
+=======
+    
+>>>>>>> c6403f07dd1935788bb6178dff23b14d76aa43b2
 }
 
 input[type="number"], input[type="text"]{
