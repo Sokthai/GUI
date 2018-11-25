@@ -58,8 +58,11 @@ $(document).ready(function () {
                 number: () => {
                     $("#h1").css("background-color", "lightcoral");
                     return "Please enter <em style='color: red'>number</em> for Horizonal START"
+                },
+                nowhitespace:()=>{
+                    $("#h1").css("background-color", "lightcoral");
+                    return "No White space is allow";
                 }
-
             },
             h2: {
                 required: () => {
@@ -69,6 +72,10 @@ $(document).ready(function () {
                 number: () => {
                     $("#h2").css("background-color", "lightcoral");
                     return "Please enter <em style='color: red'>number</em> for Horizonal END"
+                },
+                nowhitespace:()=>{
+                    $("#h2").css("background-color", "lightcoral");
+                    return "No White space is allow";
                 }
 
             },
@@ -80,6 +87,10 @@ $(document).ready(function () {
                 number: () => {
                     $("#v1").css("background-color", "lightcoral");
                     return "Please enter <em style='color: red'>number</em> for Vertical START"
+                },
+                nowhitespace:()=>{
+                    $("#v1").css("background-color", "lightcoral");
+                    return "No White space is allow";
                 }
 
             },
@@ -91,6 +102,10 @@ $(document).ready(function () {
                 number: () => {
                     $("#v2").css("background-color", "lightcoral");
                     return "Please enter <em style='color: red'>number</em> for Vertical END"
+                },
+                nowhitespace:()=>{
+                    $("#v2").css("background-color", "lightcoral");
+                    return "No White space is allow";
                 }
             }
         },
