@@ -147,6 +147,10 @@ p{
     margin: auto;
 }
 
+.form-group{
+    height: 55px;
+}
+
 /* make form readable when resizing */
 @media screen and (max-width : 500px){
     .form, p{
