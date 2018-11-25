@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>HW 7 Jquery validation plug ins</title>
+    <!-- <script src="script/script.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+    <!-- jquery validator plug in cdn -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.18.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.18.0/additional-methods.min.js"></script>
+     -->
+
+    <!-- jquery validation plugin cdn -->
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.min.js"></script>
+
+    <script src="script/myjquery.js"></script>
+    <!-- jQuery Validation Plugin: Remote Validation With AJAX (3/4) -->
+
+</head>
+
+
+<body>
+
+
+
+    
+    <div style="width: 500px; margin: auto">
+        <p>Please provide a start and end number to generate the Multiplication table.
+            The range is 400 across and it can take negetive number
+        </p>
+        <div class="form">
+            <form class="form-horizontal" id="form" action="" method="get">
+                <h2>Multiplication Table</h2>
+                <span id="message" class="alert alert-danger" role="alert">error is here</span>
+                <div style="height: 10px;"><span id="message"></span></div>
+
+                <div class="form-group">
+                    <label for="h1" class="col-sm-4 control-label">Horizonal start:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="h1" class="form-control" name="h1" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="h2" class="col-sm-4 control-label">Horizonal end:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="h2" class="form-control" name="h2" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="v1" class="col-sm-4 control-label">Vertical start:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="v1" class="form-control" name="v1" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="v2" class="col-sm-4 control-label">Vertical end:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="v2" class="form-control" name="v2" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                        <button type="submit" id="submit" class="btn btn-success mybtn" value="Submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="table"></div>
+</body>
+
+
+
+
+
+</html>

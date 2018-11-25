@@ -1,4 +1,19 @@
+/*
+Sokthai Tang 
+UMass Lowell
+HW7:
+Using jQuery validator instead of straight javascript
+to validate the input fields
+updated by ST on Nov/21/2018
+*/
+
+
+
 $(document).ready(function () {
+
+
+    
+
     let arrId = ["#h1", "#h2", "#v1", "#v2"];
     let msg = $("#message");
     $("#h1").keyup(() => {

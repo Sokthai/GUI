@@ -8,13 +8,12 @@ body {
     margin: auto;
     margin-top: 20px;
     margin-bottom: 20px;
-    width: 400px;
+    width: 500px;
     border: 2px solid green;
     background-color: #f2f2f2;
     border-radius: 10px;
     padding: 10px;
     overflow: hidden;
-    
     
 }
 
@@ -48,16 +47,10 @@ body {
  
 /* error message */
 span{
-    
-    /* display: block; */
-    /* visibility: hidden;s */
+    display: none;
     color: red;
     text-transform: capitalize;
     text-align: center;
-    /* border: 1px solid blue; */
-    overflow: hidden;
-    
-
 }
 
 input[type="number"], input[type="text"]{
@@ -65,22 +58,24 @@ input[type="number"], input[type="text"]{
 }
 
 input[type="text"]:hover{
-    border: 2px solid pink;
+    border: 2px solid green;
 }
 
 
-button{
+input[type="submit"]{
     color: whitesmoke;
     height: 50px;
     width: 100%;
     font-size: 25px;
     border-radius: 4px;
-    background-color: #4CAF50;
+    /* background-color: #4CAF50; */
     border: none;
 }
 
 input[type="submit"]:hover{
+    transition-duration: 0.4s;
     background-color: #45a049;
+    
 } 
 
 /* styling table */
@@ -110,7 +105,7 @@ input[type="submit"]:hover{
 
 /* selecting the first empty cell */
 .gth:empty{
-    background: rgb(128, 0, 43);
+    background: green;
 }
 
 .gth{
@@ -147,18 +142,10 @@ h2{
 
 p{
     padding-top: 30px;
-    width: 400px;
+    
     text-align: justify;
     margin: auto;
 }
-
-.disabledInput{
-    background-color: rgb(58, 57, 57);
-    color: rgb(184, 178, 178);
-}
-
-
-
 
 /* make form readable when resizing */
 @media screen and (max-width : 500px){

@@ -66,10 +66,12 @@ input[type="submit"]{
     color: whitesmoke;
     height: 50px;
     width: 100%;
-    font-size: 25px;
+    font-size: 20px;
     border-radius: 4px;
     background-color: #4CAF50;
     border: none;
+    float: right;
+    
 }
 
 input[type="submit"]:hover{
@@ -140,7 +142,7 @@ h2{
 
 p{
     padding-top: 30px;
-    width: 400px;
+    
     text-align: justify;
     margin: auto;
 }
