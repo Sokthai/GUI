@@ -1,8 +1,16 @@
+<!-- Sokthai Tang 
+UMass Lowell
+GUI I 
+HW8
+Using jQuery validator plugin to validate the input fields and Slider and Tabs UI plugin
+Created by ST on Dec/02/2018
+Updateed on Dec/02/2018 -->
+
 <!doctype html>
 <html>
 
 <head>
-    <title>HW 7 Jquery validation plug in</title>
+    <title>HW 8 Jquery UI</title>
     <!-- <script src="script/script.js"></script> -->
     <link rel="stylesheet" type="text/css" href="style/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -21,8 +29,17 @@
     <!-- jquery validation plugin cdn -->
     <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
     <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css"
+        type="text/css">
 
+    <!-- jquery ui plugin cdn -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" type="text/css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script src="script/ui.js"></script>
     <script src="script/myjquery.js"></script>
+
+
     <!-- jQuery Validation Plugin: Remote Validation With AJAX (3/4) -->
 
 </head>
@@ -32,54 +49,66 @@
 
 
 
-    
+
     <div style="width: 500px; margin: auto">
         <p>Please provide a start and end number to generate the Multiplication table.
-            The range is 400 across and it can take negetive number
+            The range is between [-200 to 200]
         </p>
         <div class="form">
             <form class="form-horizontal" id="form" action="" method="get">
-                <h2>Multiplication Table</h2>
-                <span id="message" class="alert alert-danger" role="alert">error is here</span>
+                <h2>Multiplication Table With UI</h2>
+                <span id="message" class="alert alert-danger" role="alert" style="display: none">error is here</span>
                 <div style="height: 10px;"><span id="message"></span></div>
 
                 <div class="form-group">
                     <label for="h1" class="col-sm-4 control-label">Horizonal start:</label>
                     <div class="col-sm-8">
-                        <input type="text" id="h1" class="form-control" name="h1" />
+                        <div id="h1slider" style="margin-bottom: 5px"></div>
+                        <input type="text" id="h1" class="form-control" name="h1" value=0>
                     </div>
                 </div>
+
 
                 <div class="form-group">
                     <label for="h2" class="col-sm-4 control-label">Horizonal end:</label>
                     <div class="col-sm-8">
-                        <input type="text" id="h2" class="form-control" name="h2" />
+                        <div id="h2slider" style="margin-bottom: 5px"></div>
+                        <input type="text" id="h2" class="form-control" name="h2" value=0>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="v1" class="col-sm-4 control-label">Vertical start:</label>
                     <div class="col-sm-8">
-                        <input type="text" id="v1" class="form-control" name="v1" />
+                        <div id="v1slider" style="margin-bottom: 5px"></div>
+                        <input type="text" id="v1" class="form-control" name="v1" value=0>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="v2" class="col-sm-4 control-label">Vertical end:</label>
                     <div class="col-sm-8">
-                        <input type="text" id="v2" class="form-control" name="v2" />
+                        <div id="v2slider" style="margin-bottom: 5px"></div>
+                        <input type="text" id="v2" class="form-control" name="v2" value=0>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-8">
                         <button type="submit" id="submit" class="btn btn-success mybtn" value="Submit">Submit</button>
+                        <a class="btn btn-danger" id="deleteTabs">Delete Tabs</a>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <div id="table"></div>
+
+        
+
+
+    <div id="myTabs">
+        <ul></ul>
+    </div>
 </body>
 
 
