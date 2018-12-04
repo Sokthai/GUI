@@ -71,8 +71,9 @@ span {
     /* overflow: scroll; */
     margin: auto;
     text-align: center;
+    
     /* border-radius: 5px; */
-    background-color: #f2f2f2;
+    background-color: #b95858;
     border-collapse: collapse;
 }
 
@@ -83,12 +84,18 @@ span {
 }
 
 .gtd:nth-child(odd) {
-    background-color: rgb(127, 255, 244);
+    /* background-color: rgb(127, 255, 244); */
+    background-color: rgb(215, 241, 70);
+}
+
+.gtd:nth-child(even) {
+    /* background-color: rgb(127, 255, 244); */
+    background-color: rgb(70, 158, 241);
 }
 
 /* selecting the first empty cell */
 .gth:empty {
-    background: green;
+    background: purple;
 }
 
 .gth {
@@ -118,6 +125,7 @@ h2 {
     height: 350px;
     /* max-height: 330px; */
     border-radius: 10px;
+    text-align: center;
     /* background-color: red; */
     margin: auto;
     
