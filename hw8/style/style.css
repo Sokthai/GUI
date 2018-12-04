@@ -84,12 +84,10 @@ span {
 }
 
 .gtd:nth-child(odd) {
-    /* background-color: rgb(127, 255, 244); */
     background-color: rgb(215, 241, 70);
 }
 
 .gtd:nth-child(even) {
-    /* background-color: rgb(127, 255, 244); */
     background-color: rgb(70, 158, 241);
 }
 
