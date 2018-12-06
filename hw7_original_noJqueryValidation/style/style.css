@@ -1,68 +1,85 @@
 body {
     background-color: white;
     margin: 0;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; 
 }
 
-.form {
+.form{
     margin: auto;
     margin-top: 20px;
     margin-bottom: 20px;
-    width: 500px;
+    width: 400px;
     border: 2px solid green;
     background-color: #f2f2f2;
     border-radius: 10px;
     padding: 10px;
     overflow: hidden;
-
+    
 }
 
-.input {
+.input{
     display: block;
     margin: auto;
     padding: 10px 0;
 }
 
-.col-30 {
+.col-30{
     width: 36%;
     text-align: right;
     display: inline-block;
 }
 
-.col-30>label {
+.col-30 > label{
     font-size: 20px;
     text-transform: capitalize;
 }
 
 /* adding : to the text */
-.col-30>label:after {
-    content: ":";
+.col-30 > label:after{
+    content: ":"; 
 }
 
-.col-70 {
+.col-70{
     width: 62%;
     display: inline-block;
 
 }
-
+ 
 /* error message */
-span {
-    /* display: none;
-    color: green; */
+span{
+    display: none;
+    color: red;
     text-transform: capitalize;
     text-align: center;
-    display: block;
-
 }
 
-.spanButton:hover{
-    color : red;
-    cursor: pointer;
-    background-color: blue;
+input[type="number"], input[type="text"]{
+    width: 100%;
 }
+
+input[type="text"]:hover{
+    border: 2px solid pink;
+}
+
+
+input[type="submit"]{
+    color: whitesmoke;
+    height: 50px;
+    width: 100%;
+    font-size: 20px;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    border: none;
+    float: right;
+    
+}
+
+input[type="submit"]:hover{
+    background-color: #45a049;
+} 
 
 /* styling table */
-#gtable {
+#gtable{
     outline: 3px solid green;
     /* max-width: 50%; */
     /* max-height: 50%; */
@@ -71,34 +88,27 @@ span {
     /* overflow: scroll; */
     margin: auto;
     text-align: center;
-    
     /* border-radius: 5px; */
-    background-color: #b95858;
+    background-color: #f2f2f2;
     border-collapse: collapse;
 }
 
 
 
-.gtd {
-    color: black;
+.gtd{
+   color: black;
 }
 
-.gtd:nth-child(odd) {
-    /* background-color: rgb(127, 255, 244); */
-    background-color: rgb(215, 241, 70);
-}
-
-.gtd:nth-child(even) {
-    /* background-color: rgb(127, 255, 244); */
-    background-color: rgb(70, 158, 241);
+.gtd:nth-child(odd){
+    background-color: rgb(127, 255, 244);
 }
 
 /* selecting the first empty cell */
-.gth:empty {
-    background: purple;
+.gth:empty{
+    background: green;
 }
 
-.gth {
+.gth{
     border: 1px solid #f2f2f2;
     background-color: rgb(9, 53, 9);
     color: rgb(197, 56, 5);
@@ -107,16 +117,16 @@ span {
     width: 30px;
 }
 
-h2 {
+h2{
     margin: auto;
     text-align: center;
 }
 
-::selection {
+::selection{
     color: rgb(233, 173, 7);
 }
 
-.mytable {
+#table{
     /* border: 2px solid green; */
     overflow: auto;
     /* width: 300px; */
@@ -125,78 +135,24 @@ h2 {
     height: 350px;
     /* max-height: 330px; */
     border-radius: 10px;
-    text-align: center;
     /* background-color: red; */
     margin: auto;
-    
 }
 
 
-p {
+p{
     padding-top: 30px;
-
+    
     text-align: justify;
     margin: auto;
 }
 
-.form-group {
-    height: 55px;
-}
-
-
-
-/* UI Slider======================= */
-
-
-
-
-.slider {
-    height: 200px;
-    width: 80%;
-    border: 1px solid red;
-    background-color: green;
-    display: block;
-}
-
-#tip {
-    position: absolute;
-    display: inline-block;
-    padding: 5px 0;
-    margin: 20px;
-    width: 50px;
-    text-align: center;
-    font: bold 11px Verdana;
-}
-
-/* UI Tabs======================= */
-
-
-
-
-.ui-tabs-selected , .ui-state-active{
-    color: green;
-}
-
-
-
-#myTabs{
-    display: none;
-}
-
-
-
-
-
-
 /* make form readable when resizing */
-@media screen and (max-width : 500px) {
-
-    .form,
-    p {
+@media screen and (max-width : 500px){
+    .form, p{
         width: 90%;
     }
-
-    .col-30>label {
+    .col-30 > label{
         font-size: 18px;
         text-transform: capitalize;
     }

@@ -58,11 +58,16 @@ $(document).ready(function () {
                 number: () => {
                     $("#h1").css("background-color", "lightcoral");
                     return "Please enter <em style='color: red'>number</em> for Horizonal START"
+<<<<<<< HEAD
                 },
                 nowhitespace:()=>{
                     $("#h1").css("background-color", "lightcoral");
                     return "No White space is allow";
                 }
+=======
+                }
+
+>>>>>>> fc0bfc01ae6643219bdff93a486ec2a43eec46d2
             },
             h2: {
                 required: () => {
@@ -72,10 +77,13 @@ $(document).ready(function () {
                 number: () => {
                     $("#h2").css("background-color", "lightcoral");
                     return "Please enter <em style='color: red'>number</em> for Horizonal END"
+<<<<<<< HEAD
                 },
                 nowhitespace:()=>{
                     $("#h2").css("background-color", "lightcoral");
                     return "No White space is allow";
+=======
+>>>>>>> fc0bfc01ae6643219bdff93a486ec2a43eec46d2
                 }
 
             },
@@ -87,10 +95,13 @@ $(document).ready(function () {
                 number: () => {
                     $("#v1").css("background-color", "lightcoral");
                     return "Please enter <em style='color: red'>number</em> for Vertical START"
+<<<<<<< HEAD
                 },
                 nowhitespace:()=>{
                     $("#v1").css("background-color", "lightcoral");
                     return "No White space is allow";
+=======
+>>>>>>> fc0bfc01ae6643219bdff93a486ec2a43eec46d2
                 }
 
             },
@@ -102,10 +113,13 @@ $(document).ready(function () {
                 number: () => {
                     $("#v2").css("background-color", "lightcoral");
                     return "Please enter <em style='color: red'>number</em> for Vertical END"
+<<<<<<< HEAD
                 },
                 nowhitespace:()=>{
                     $("#v2").css("background-color", "lightcoral");
                     return "No White space is allow";
+=======
+>>>>>>> fc0bfc01ae6643219bdff93a486ec2a43eec46d2
                 }
             }
         },
