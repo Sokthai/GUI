@@ -1,0 +1,56 @@
+body{
+    background-image: url("../images/beach.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+
+#gtable{
+    border: 5px solid red;
+    /* margin: auto; */
+    margin: 0 50px;
+    border-collapse: collapse;
+    display: inline-block;
+}
+
+td{
+    border: 2px solid whitesmoke;
+    width:  45px;
+}
+
+tr{
+    height: 45px;
+
+}
+#scrabble{
+    border: 2px solid blue;
+    position: relative;
+}
+
+#table{
+    border: 1px solid green;
+    margin-top: 100px;
+    margin: auto;
+    display: inline-block;
+    /* padding-left: 50%; */
+}
+#rack{
+    border: 2px solid purple;
+    position: absolute;
+    right: 20px;
+    top: 100px;
+    width: 500px;
+    height: 150px;
+    background-image: url("../images/rack.png");
+}
+
+.tiles{
+    background-image: url("../images/A.jpg");
+    right: 20px;
+    top: 250px;
+    width: 45px;
+    height: 45px;
+    display: inline-block;
+    position: absolute;
+}
