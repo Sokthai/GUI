@@ -29,7 +29,8 @@ $(document).ready(function () {
             let tr = $("<tr>");
             for (j = 0; j < 15; j++) {
                 let td = $("<td>");
-                td.addClass("gth").text("thai");
+                td.addClass("gth snap").text("");
+               
                 tr.append(td); //add td to tr
             }
             tbody.append(tr); //append tr to tbody
@@ -37,4 +38,10 @@ $(document).ready(function () {
         table.append(tbody); //add tbody to table
         $("#table").append(table);
     }
+
+
+
+
+
+    $(".tiles").draggable({snap: ".snap", snapMode: "inner"});
 });

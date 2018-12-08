@@ -14,8 +14,15 @@ body{
     display: inline-block;
 }
 
+.gth{
+    background-image: url("../images/tw.png");
+    background-size: 100%;
+    /* padding-bottom: 50px; */
+}
+
+
 td{
-    border: 2px solid whitesmoke;
+    border: 1px solid green;
     width:  45px;
 }
 
@@ -38,19 +45,35 @@ tr{
 #rack{
     border: 2px solid purple;
     position: absolute;
-    right: 20px;
+    right: 30px;
     top: 100px;
-    width: 500px;
-    height: 150px;
+    width: 430px;
+    height: 80px;
     background-image: url("../images/rack.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
+
+#stand{
+    /* border: 1px solid blue; */
+    width: 400px;
+    height: 45px;
+    position: absolute;
+    right: 10px;
+    top: 21px;
+}
+
+
 
 .tiles{
     background-image: url("../images/A.jpg");
     right: 20px;
     top: 250px;
-    width: 45px;
+    width: 48px;
     height: 45px;
     display: inline-block;
     position: absolute;
+    cursor: pointer;
+    background-size: 100%;
+    border-radius: 2px;
 }
