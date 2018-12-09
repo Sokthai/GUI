@@ -1,21 +1,18 @@
 body{
+    /* background-color: pink; */
+
     background-image: url("../images/beach.jpg");
     background-repeat: no-repeat;
     background-size: cover;
+    min-width: 700px;
 }
 
 
 
-#gtable{
-    border: 5px solid red;
-    /* margin: auto; */
-    margin: 0 50px;
-    border-collapse: collapse;
-    display: inline-block;
-}
+
 
 .gth{
-    background-image: url("../images/tw.png");
+    /* background-image: url("../images/tw.png"); */
     background-size: 100%;
     /* padding-bottom: 50px; */
 }
@@ -23,11 +20,12 @@ body{
 
 td{
     border: 1px solid green;
-    width:  45px;
+    width:  38px;
 }
 
 tr{
-    height: 45px;
+
+    height: 38px;
 
 }
 #scrabble{
@@ -36,44 +34,102 @@ tr{
 }
 
 #table{
-    border: 1px solid green;
-    margin-top: 100px;
+    border: 5px solid peru;
+    /* margin-top: 100px; */
+    padding: 5px;
     margin: auto;
     display: inline-block;
-    /* padding-left: 50%; */
+    margin-left: 50px;
+    /* overflow: scroll; */
+    width: 610px;
+    height: 580px;
+}
+
+#gtable{
+    border: 5px solid red;
+    /* margin: auto; */
+    /* padding: 0 50px; */
+    border-collapse: collapse;
+    display: inline-block;
+    width: 600px;
+    height: 571px;
+    
 }
 #rack{
     border: 2px solid purple;
     position: absolute;
-    right: 30px;
+    right: 80px;
     top: 100px;
-    width: 430px;
-    height: 80px;
+    width: 420px;
+    height: 60px;
     background-image: url("../images/rack.png");
     background-repeat: no-repeat;
     background-size: 100%;
 }
 
 #stand{
-    /* border: 1px solid blue; */
-    width: 400px;
-    height: 45px;
+    border: 1px solid blue;
+    width: 390px;
+    height: 44px;
     position: absolute;
     right: 10px;
-    top: 21px;
+    top: 10px;
+    padding: 5px;
+}
+
+#standTable{
+    border-spacing: 10px 0px;
+    border: 1px solid red;
 }
 
 
 
 .tiles{
     background-image: url("../images/A.jpg");
-    right: 20px;
-    top: 250px;
-    width: 48px;
-    height: 45px;
-    display: inline-block;
-    position: absolute;
+    /* right: 20px;
+    top: 250px; */
+    width: 40px;
+    height: 36px;
+    /* display: block; */
+    /* position: absolute; */
     cursor: pointer;
     background-size: 100%;
     border-radius: 2px;
+    
+    /* border: 1px solid lawngreen; */
 }
+
+
+
+
+/* set images for scrabble board */
+.tw{
+    background-image: url("../images/tw.png");
+}
+
+.dl{
+    background-image: url("../images/dl.png");
+}
+
+.dw{
+    background-image: url("../images/dw.png");
+}
+
+.tl{
+    background-image: url("../images/tl.png");
+}
+
+.star{
+    background-image: url("../images/star.png");
+}
+
+@media screen and (max-width: 900px) {
+    body {
+      background-color: lightgreen;
+      /* background-image: url("../images/ScrabbleBoard.jpg"); */
+    }
+    #rack{
+        display: block;
+        width: 100%;
+    }
+  }
