@@ -29,7 +29,6 @@ $(document).ready(function () {
             let tr = $("<tr>");
             for (j = 0; j < 15; j++) {
                 let td = $("<td>");
-                let myClass = "";
                 td.addClass("gth snap").text("");
                 td.attr("id", getLetter(i) + j);
                 setBoardClass(i, j, td); //set board layout
@@ -42,6 +41,7 @@ $(document).ready(function () {
 
     }
 
+    
 
 
     function getLetter(i) {
@@ -146,12 +146,24 @@ $(document).ready(function () {
 
 
 
-
-    $(".tiles").draggable({
+   //make tiles draggable
+    $(".tiles").draggable({  //https://jqueryui.com/draggable/
         snap: ".snap",
         snapMode: "inner"
     });
 
+    $(".snap").droppable({ //position the tile to the center of the block
+        drop: function (event, ui){
+            ui.draggable.position({ //https://api.jqueryui.com/position/
+                my: "center",
+                at: "center",
+                of: $(this),
+                using: function (pos){
+                    $(this).animate(pos, 20, "linear");
+                }
+            })
+        }
+    })
 
     function setBoardClass(i, j, td){
         switch (i) { //set up the class for each td for set up backround image
