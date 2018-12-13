@@ -88,18 +88,26 @@ tr{
     border: none;
 }
 
+#swap{
+    left: 20px;
+}
+
+#play{  
+    left: 100px;
+}
+
 .button{
-    position: absolute;
-    background-color: #555555;
     
+    background-color: #555555;
+    position: absolute;
+    bottom: 0px;
     text-align: center;
     font-size: 15px;
     padding: 8px 15px;
     border: none;
     color: white;
     cursor: pointer;
-    bottom: 0px;
-    left: 20px;
+    
 }
 
 .button:hover{
@@ -141,6 +149,7 @@ tr{
     cursor: pointer;
     background-size: 100%;
     border-radius: 2px;
+    opacity: 0.75;
     
     /* border: 1px solid lawngreen; */
 }

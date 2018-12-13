@@ -8,8 +8,22 @@
     Updateed on 12/08/18
 */
 
+//make it global so other file can access this objects;
+let json = (function () { //getting letters from json file and save to a variable
+    var json = null;
+    $.ajax({
+        'async': false,
+        // 'global': false,
+        'url': "script/pieces.json",
+        'dataType': "json",
+        'success': function (data) {
+            json = data;
+        }
+    });
+    return json;
+})();
 
-
+var letters = [];
 
 $(document).ready(function () {
 
@@ -59,21 +73,10 @@ $(document).ready(function () {
     // readJson("script/pieces.json");
 
 
-    let json = (function () { //getting letters from json file and save to a variable
-        var json = null;
-        $.ajax({
-            'async': false,
-            // 'global': false,
-            'url': "script/pieces.json",
-            'dataType': "json",
-            'success': function (data) {
-                json = data;
-            }
-        });
-        return json;
-    })();
+    
 
-    var letters = [];
+    
+
     var availableLetter = 100; //English scrabble of 100 letters
 
     function generateLetter() { //generate 7 letter and save to a array of objects
@@ -91,6 +94,9 @@ $(document).ready(function () {
             availableLetter--; //minus a letter each time a letter is used
         }
         reRackLetter();
+        // console.log(json.pieces);
+        console.log(availableLetter);
+
     }
 
     generateLetter();
@@ -118,18 +124,19 @@ $(document).ready(function () {
             let tiles = $("<div>").addClass("tiles");
             let id = "#" + getLetter(i);
             tiles.css("background-image", image );
-            tiles.attr("value" , letters[i].value);
+            tiles.attr("value" , letters[i].letter);
             $(id).append(tiles);
         }
     }
 
-    $("#swap").click(function(){
+    $("#swap").click(function(){ //when user want to change the their letter with the bag letter
         for (let i = 0; i < letters.length; i++){
             let l = letters[i].letter;
             let index = parseInt(l.charCodeAt(0)) - 65; //calculate the index of json
             json.pieces[index].quantity = json.pieces[index].quantity + 1  ; //put all the letter back to the bag for swap
+            availableLetter++;
         }
-        console.log(json.pieces);
+        // console.log(json.pieces);
         letters.length = 0; //clear letter array
         generateLetter();
     })
