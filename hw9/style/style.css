@@ -5,6 +5,7 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     min-width: 700px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 
@@ -56,36 +57,78 @@ tr{
     
 }
 #rack{
-    /* border: 2px solid purple; */
+    border: 2px solid purple;
     position: absolute;
-    right: 80px;
-    top: 100px;
     width: 420px;
     height: 60px;
     background-image: url("../images/rack.png");
-    background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 100% 100%;
 }
 
 #stand{
-    /* border: 1px solid blue; */
+    border: 1px solid blue;
     width: 390px;
     height: 44px;
     position: absolute;
-    right: 10px;
-    top: 10px;
+    margin: auto;
+    right: 0px;
+    /* top: 10px; */
     padding: 5px;
 }
 
 .standTable{
+    position: absolute;
+    right: 25px;
+    top: 10px;
     border-spacing: 10px 0px;
-    border: none;
+    /* border: 1px solid red; */
 }
 
 .standTable td{
     border: none;
 }
 
+.button{
+    position: absolute;
+    background-color: #555555;
+    
+    text-align: center;
+    font-size: 15px;
+    padding: 8px 15px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    bottom: 0px;
+    left: 20px;
+}
+
+.button:hover{
+    box-shadow: 2px 2px 5px gray;
+}
+
+#player{
+    position: absolute;
+    border: 1px solid blue;
+    width: 430px;
+    height: 100px;
+    top: 80px;
+    margin-left: 80px;
+
+}
+
+
+
+
+
+#playerBoard{
+    border: 1px solid red;
+    display: inline-block;
+    width: 600px;
+    height: 598px;
+    position: absolute;
+    top: 0px;
+    margin-left: 20px;
+}
 
 .tiles{
     background-image: url("../images/A.jpg");
@@ -131,11 +174,11 @@ tr{
       background-color: lightgreen;
       /* background-image: url("../images/ScrabbleBoard.jpg"); */
     }
-    #rack{
+    #playerBoard{
         display: block;
         top: 600px;
+        width: 628px;
         margin: 10px 50px;
         left: 0px;
-
     }
   }
