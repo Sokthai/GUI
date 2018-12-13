@@ -90,6 +90,7 @@ $(document).ready(function () {
             letters.push(obj);
             availableLetter--; //minus a letter each time a letter is used
         }
+        reRackLetter();
     }
 
     generateLetter();
@@ -113,7 +114,6 @@ $(document).ready(function () {
 
 
         for (let i = 0; i < letters.length; i++) { //the 7 tiles
-            
             let image = "url('images/" + letters[i].letter + ".jpg')";
             let tiles = $("<div>").addClass("tiles");
             let id = "#" + getLetter(i);
@@ -121,12 +121,24 @@ $(document).ready(function () {
             tiles.attr("value" , letters[i].value);
             $(id).append(tiles);
         }
-
     }
 
+    $("#swap").click(function(){
+        for (let i = 0; i < letters.length; i++){
+            let l = letters[i].letter;
+            let index = parseInt(l.charCodeAt(0)) - 65; //calculate the index of json
+            json.pieces[index].quantity = json.pieces[index].quantity + 1  ; //put all the letter back to the bag for swap
+        }
+        console.log(json.pieces);
+        letters.length = 0; //clear letter array
+        generateLetter();
+    })
 
 
-    reRackLetter();
+
+
+     
+
 
 
 
@@ -145,10 +157,6 @@ $(document).ready(function () {
     }
 
 
-
-
-
-   
 
     function setBoardClass(i, j, td){
         switch (i) { //set up the class for each td for set up backround image
