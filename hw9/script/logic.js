@@ -54,13 +54,13 @@ $(function () {
         drop: function (event, ui) {
             let id = $(this).attr("id");
             let cls = $(this).attr("class").slice(9, 11);
-            //let star = $("#h7").attr("value"); //check if the star tile is already play
+            let star = $("#h7").attr("value"); //check if the star tile is already play
 
             
             
-            // if (totalGameScore === 0 && star === undefined) {
-            //     alert("Please play the star first");
-            // }else{
+            if (id !== "h7" && star === undefined) {
+                alert("Please play the star first");
+            }else{
 
                 console.log(star);
                 //console.log(cls);
@@ -78,7 +78,7 @@ $(function () {
                 }
 
                 letters.splice(sindex, 1); //remove letter from the rack array after play
-            // }
+            }
             ui.draggable.position({ //https://api.jqueryui.com/position/
                 my: "center",
                 at: "center",
