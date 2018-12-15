@@ -55,7 +55,7 @@ $(document).ready(function () {
 
     }
 
-    
+
 
 
     function getLetter(i) {
@@ -73,9 +73,9 @@ $(document).ready(function () {
     // readJson("script/pieces.json");
 
 
-    
 
-    
+
+
 
     var availableLetter = 100; //English scrabble of 100 letters
 
@@ -93,62 +93,105 @@ $(document).ready(function () {
             letters.push(obj);
             availableLetter--; //minus a letter each time a letter is used
         }
-        reRackLetter();
+        
         // console.log(json.pieces);
-        console.log(availableLetter);
+        // console.log(availableLetter);
 
     }
-
-    generateLetter();
+    generateLetter(); //generate the 7 tiles letters
+    reRackLetter(); //put that 7 tiles letters on the rack
+    
 
     function reRackLetter() {
+        $(".standTable").remove();
+        let table = $("<table>").addClass("standTable");
+        let tbody = $("<tbody>");
+        let tr = $("<tr>");
+        for (i = 0; i < 7; i++) {
+            let td = $("<td>");
+            td.addClass("snap letterStand").text("");
+            td.attr("id", getLetter(i));
+            tr.append(td); //add td to tr
+        }
+        tbody.append(tr); //append tr to tbody
 
-        // let mytable = $("table").attr("id", "standTable");
-        // let mytbody = $("tbody");
-        
-        //     let mytr = $("<tr>");
-        //     for (i = 0; i < 7; i++) {
-        //         let mytd = $("<td>");
-        //         mytd.addClass("snap").text("");
-        //         mytd.attr("id", getLetter(i));
-        //         mytr.append(mytd); //add td to tr
-        //     }
-        //     mytbody.append(mytr); //append tr to tbody
-        
-        // mytable.append(mytbody); //add tbody to table
-        // $("#stand").append(mytable);
+        table.append(tbody); //add tbody to table
+        $("#rack").append(table);
 
+        // let table = "<table id='standTable'> <tr><td class='snap' id='" + getLetter(1) + "'" + "></td></tr></table>";
 
+        // console.log("this is table" + table);
         for (let i = 0; i < letters.length; i++) { //the 7 tiles
             let image = "url('images/" + letters[i].letter + ".jpg')";
             let tiles = $("<div>").addClass("tiles");
             let id = "#" + getLetter(i);
-            tiles.css("background-image", image );
-            tiles.attr("value" , letters[i].letter);
-            $(id).append(tiles);
+            tiles.css("background-image", image);
+            tiles.attr("value", letters[i].letter);
+            // $(id).append(tiles);
+            $(tiles).appendTo(id).draggable({ //https://jqueryui.com/draggable/
+                snap: ".snap",
+                snapMode: "inner",
+                revert: function (obj) {
+                    if (putBack) {
+                        return false; //allow to put back to stand
+                    }
+                    if (gameStart) {
+        
+                        if (firstTile) {
+                            firstTile = false;
+                            $(this).draggable("disable");
+                            // $("#" + originalId).droppable("disable");
+                            $("#" + originalId).droppable( "option", "disabled", true );
+                            return false; //first tile always put in the center/star tile
+                        } else {
+                            if (adjacentTile) {
+                                return false; // no revert
+                            } else {
+                                // console.log("original value is " + originalValue);
+                                if (originalValue === undefined){
+                                    $("#" + originalId).removeAttr("value");
+                                }else{
+                                    $("#" + originalId).attr("value", originalValue);
+                                }
+                                alert("need to be in straight line . revert first 1");
+                                $("#play").attr("disabled", "disabled");
+
+                                // return true; //revert
+                            }
+                        }
+        
+                    } else {
+                        alert("Please start the game from the star tile ");
+                        return true; //revert
+                    }
+                },
+                drag: function () {
+                    // console.log((this));
+                    // console.log($(this));
+                    value = $(this).attr("value");
+        
+                    // console.log(value);
+                }
+                
+            });
         }
     }
 
-    $("#swap").click(function(){ //when user want to change the their letter with the bag letter
-        for (let i = 0; i < letters.length; i++){
+   
+    $("#swap").click(function () { //when user want to change the their letter with the bag letter
+        for (let i = 0; i < letters.length; i++) {
             let l = letters[i].letter;
             let index = parseInt(l.charCodeAt(0)) - 65; //calculate the index of json
-            json.pieces[index].quantity = json.pieces[index].quantity + 1  ; //put all the letter back to the bag for swap
+            json.pieces[index].quantity = json.pieces[index].quantity + 1; //put all the letter back to the bag for swap
             availableLetter++;
         }
         // console.log(json.pieces);
         letters.length = 0; //clear letter array
         generateLetter();
+        reRackLetter();
     })
 
-
-
-
-     
-
-
-
-
+    
 
 
     //NOTE:
@@ -165,7 +208,7 @@ $(document).ready(function () {
 
 
 
-    function setBoardClass(i, j, td){
+    function setBoardClass(i, j, td) {
         switch (i) { //set up the class for each td for set up backround image
             case 0:
             case 14:

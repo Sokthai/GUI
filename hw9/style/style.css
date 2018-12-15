@@ -81,7 +81,7 @@ tr{
     right: 25px;
     top: 10px;
     border-spacing: 10px 0px;
-    /* border: 1px solid red; */
+    border: 1px solid red;
 }
 
 .standTable td{
