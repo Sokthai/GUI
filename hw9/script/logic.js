@@ -212,6 +212,8 @@ $(function () {
 
         // console.log("letter score " + playscore);
         // console.log("totalPlayScore " + totalPlayScore);
+                // console.log("totalPlayScore " + totalPlayScore);
+
 
     }
 
