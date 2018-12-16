@@ -1,6 +1,5 @@
 {
-	"pieces" : 
-		[
+	"pieces": [
 			{"letter":"A", "value":1,  "quantity":9},
 			{"letter":"B", "value":3,  "quantity":2},
 			{"letter":"C", "value":3,  "quantity":2},
@@ -29,7 +28,7 @@
 			{"letter":"Z", "value":10, "quantity":1},
 			{"letter":"_", "value":0,  "quantity":2}
 		],
-	"creator":"Ramon Meza",
+	"creator" : "Ramon Meza",
 	"title" : "scrabble game"
 
 }

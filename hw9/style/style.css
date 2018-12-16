@@ -85,7 +85,8 @@ tr{
 }
 
 .standTable td{
-    border: none;
+    border: 1px solid green;
+    position: relative;
 }
 
 #swap{
@@ -140,12 +141,12 @@ tr{
 
 .tiles{
     background-image: url("../images/A.jpg");
-    /* right: 20px;
-    top: 250px; */
+    right: 0px;
+    top: 0px;
     width: 38px;
     height: 36px;
     /* display: block; */
-    /* position: absolute; */
+    position: absolute;
     cursor: pointer;
     background-size: 100%;
     border-radius: 2px;

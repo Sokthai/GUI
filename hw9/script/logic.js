@@ -3,6 +3,8 @@ let putBack = false; // allow play to put letter back to the stand
 let firstTile = true;
 let gameStart = false; //check if player play the star tile first
 let value;
+let objValue; //when the drag is reverted, the drop will remove an element from letters. we need to put back to letters[] at revert option of draggable
+let letterID; //when dragging a blank tile, we need to ask what letter to substitute and change it background image
 let adjacentTile = false; // check if player play tile next to the other tile
 let originalValue, originalId;
 $(function () {
@@ -38,7 +40,8 @@ $(function () {
 
 
     $("#play").click(function () {
-        alert("you are playing");
+        let a = "_";
+        alert(a.charCodeAt(0));
     });
 
     
@@ -92,7 +95,7 @@ $(function () {
     $(".snap").droppable({ //position the tile to the center of the block
         out: function () {
             $(this).droppable("option", "disabled", false);
-            console.log('im out ');
+            // console.log('im out ' + $(this).attr('id'));
         },
         drop: function (event, ui) {
             let id = $(this).attr("id");
@@ -106,33 +109,34 @@ $(function () {
                 putBack = false;
             }
 
-
-
-
-
             if (id !== "h7" && star === undefined) {
-                gameStart = false;
+                //gameStart = false;
                 // $(".snap").droppable("disable");
             } else {
 
                 gameStart = true;
-                console.log("drop first");
+                // console.log("drop first");
 
                 originalValue = $("#" + id).attr("value");
                 originalId = id;
-                console.log(originalValue);
+                // console.log(originalValue);
+
+                // alert("value is " + value + letterID);
                 $("#" + id).attr("value", value); //set the value to dropped element
+                
                 checkDictoinary(id, value); //checking valid words from dictionary
                 calculatePlayScore(value, cls.slice(9, 11)); //calculate the score each time user play (not total score)
 
-                let sindex;
+                console.log("who drop first");
+                let sindex; //find index of the drop letter and remove it
                 for (let i = 0; i < letters.length; i++) {
                     if (value === letters[i].letter) {
+                        objValue = letters[i]; //save the remove elemet in case it reverted 
                         sindex = i;
                         break;
                     }
                 }
-
+                // console.log("this is play letter" + playedLetter);
                 letters.splice(sindex, 1); //remove letter from the rack array after play
             }
 
@@ -152,6 +156,21 @@ $(function () {
         }
     })
 
+    $(".snapRack").droppable({
+        out: function(){
+            let id = $(this).attr('id');
+            // playedLetter.push(id); //add id to playedLetter
+            // console.log("add play " + playedLetter);
+        },
+        drop: function(event, ui){
+            let id = $(this).attr('id');
+            let index = playedLetter.indexOf(id);
+            // playedLetter.splice(index, 1); //remove that id if user put it back
+            // console.log("remove played " + playedLetter);
+        }
+
+    })
+
     function checkDictoinary(id, value) {
         let hw = getWords(id, value); //getting horizonal words
         let vw = getWords(id, value, false); //getting vertical words
@@ -163,8 +182,8 @@ $(function () {
         } else {
             adjacentTile = false;
         }
-        // console.log("hw is " + hw);
-        // console.log("vw is " + vw);
+        console.log("hw is " + hw);
+        console.log("vw is " + vw);
     }
 
 
@@ -172,7 +191,9 @@ $(function () {
 
     function calculatePlayScore(value, cls) {
 
-        let index = parseInt(value.charCodeAt(0)) - 65; //calculate the index of json
+//        let index = parseInt(value.charCodeAt(0)) - 65; //calculate the index of json
+        let index = (value === "_")? 26: parseInt(value.charCodeAt(0)) - 65 ; //calculate the index of json
+
         let playscore = parseInt(json.pieces[index].value);
         if (cls === "tl") {
             playscore *= 3;

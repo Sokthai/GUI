@@ -24,6 +24,7 @@ let json = (function () { //getting letters from json file and save to a variabl
 })();
 
 var letters = [];
+var playedLetter = []; //save the rack tile index to remove its child when swapping
 
 $(document).ready(function () {
 
@@ -58,7 +59,7 @@ $(document).ready(function () {
 
 
 
-    function getLetter(i) {
+    function getLetter(i) { //input ASCII code , return Character
         const a = 97;
         return String.fromCharCode(a + i);
     }
@@ -76,7 +77,8 @@ $(document).ready(function () {
 
 
 
-
+    var tileID = [];
+    let uniqueNum = 0;
     var availableLetter = 100; //English scrabble of 100 letters
 
     function generateLetter() { //generate 7 letter and save to a array of objects
@@ -93,40 +95,73 @@ $(document).ready(function () {
             letters.push(obj);
             availableLetter--; //minus a letter each time a letter is used
         }
-        
-        // console.log(json.pieces);
-        // console.log(availableLetter);
+        console.log(letters);
+        console.log(json.pieces);
+        console.log(availableLetter);
 
     }
     generateLetter(); //generate the 7 tiles letters
     reRackLetter(); //put that 7 tiles letters on the rack
-    
 
-    function reRackLetter() {
-        $(".standTable").remove();
-        let table = $("<table>").addClass("standTable");
-        let tbody = $("<tbody>");
-        let tr = $("<tr>");
-        for (i = 0; i < 7; i++) {
-            let td = $("<td>");
-            td.addClass("snap letterStand").text("");
-            td.attr("id", getLetter(i));
-            tr.append(td); //add td to tr
-        }
-        tbody.append(tr); //append tr to tbody
 
-        table.append(tbody); //add tbody to table
-        $("#rack").append(table);
+    function reRackLetter() { //put the "7" letters in the array on the rack
+        // $(".standTable").remove();
+        // let table = $("<table>").addClass("standTable");
+        // let tbody = $("<tbody>");
+        // let tr = $("<tr>");
+        // for (i = 0; i < 7; i++) {
+        //     let td = $("<td>");
+        //     td.addClass("snap letterStand").text("");
+        //     td.attr("id", getLetter(i));
+        //     tr.append(td); //add td to tr
+        // }
+        // tbody.append(tr); //append tr to tbody
+
+        // table.append(tbody); //add tbody to table
+        // $("#rack").append(table);
 
         // let table = "<table id='standTable'> <tr><td class='snap' id='" + getLetter(1) + "'" + "></td></tr></table>";
 
         // console.log("this is table" + table);
+        let exist = false;
+        for (let i = 0; i < tileID.length; i++) { //remvoe the tiles that is not played before get new tiles
+            let id = tileID[i];
+            exist = false;
+            // console.log("in " + id);
+            for (let j = 0; j < playedLetter.length; j++) {
+                // console.log(playedLetter[j] + " === " + id);
+                if (id === playedLetter[j]) {
+                    // console.log("ho no " + id);
+                    // playedLetter.pop();
+                    exist = true;
+                    break;
+                }
+            }
+            if (!exist) {
+                $("#" + id).remove();
+            }
+        }
+        playedLetter.length = 0;
+        tileID.length = 0;
+
+
+
+
         for (let i = 0; i < letters.length; i++) { //the 7 tiles
             let image = "url('images/" + letters[i].letter + ".jpg')";
             let tiles = $("<div>").addClass("tiles");
+
             let id = "#" + getLetter(i);
             tiles.css("background-image", image);
             tiles.attr("value", letters[i].letter);
+            tiles.attr("id", "tile" + uniqueNum);
+            tileID.push("tile" + uniqueNum);
+            uniqueNum++;
+
+
+
+
+
             // $(id).append(tiles);
             $(tiles).appendTo(id).draggable({ //https://jqueryui.com/draggable/
                 snap: ".snap",
@@ -136,62 +171,95 @@ $(document).ready(function () {
                         return false; //allow to put back to stand
                     }
                     if (gameStart) {
-        
+
                         if (firstTile) {
                             firstTile = false;
                             $(this).draggable("disable");
                             // $("#" + originalId).droppable("disable");
-                            $("#" + originalId).droppable( "option", "disabled", true );
+                            $("#" + originalId).droppable("option", "disabled", true);
+                            // letterID = $(this).attr("id");// for changing blank tile as dorppable
+                            changeBlankTile(originalId);
+
+                            playedLetter.push($(this).attr("id"));
                             return false; //first tile always put in the center/star tile
                         } else {
                             if (adjacentTile) {
+                                playedLetter.push($(this).attr("id"));
+                                // alert("need to be in straight line . revert first af");
+
+                                // letterID = $(this).attr("id");// for changing blank tile as dorppable
+
+                                changeBlankTile(originalId);
                                 return false; // no revert
                             } else {
                                 // console.log("original value is " + originalValue);
-                                if (originalValue === undefined){
+                                if (originalValue === undefined) {
                                     $("#" + originalId).removeAttr("value");
-                                }else{
+                                } else {
                                     $("#" + originalId).attr("value", originalValue);
                                 }
+
+                                letters.push(objValue); //when reverted, we put object back to letter[]
                                 alert("need to be in straight line . revert first 1");
                                 $("#play").attr("disabled", "disabled");
 
-                                // return true; //revert
+                                return true; //revert
                             }
                         }
-        
+
+
                     } else {
                         alert("Please start the game from the star tile ");
+
                         return true; //revert
                     }
                 },
                 drag: function () {
-                    // console.log((this));
-                    // console.log($(this));
+
                     value = $(this).attr("value");
-        
-                    // console.log(value);
+
+
                 }
-                
+
             });
         }
     }
 
-   
+
+
     $("#swap").click(function () { //when user want to change the their letter with the bag letter
+        console.log(letters);
         for (let i = 0; i < letters.length; i++) {
             let l = letters[i].letter;
-            let index = parseInt(l.charCodeAt(0)) - 65; //calculate the index of json
+            console.log(l);
+            console.log(l === "_");
+            let index = (l === "_") ? 26 : parseInt(l.charCodeAt(0)) - 65; //calculate the index of json
+            console.log("index is " + index);
             json.pieces[index].quantity = json.pieces[index].quantity + 1; //put all the letter back to the bag for swap
             availableLetter++;
         }
         // console.log(json.pieces);
         letters.length = 0; //clear letter array
+        console.log(tileID);
+        console.log(playedLetter);
+
+        // $("#tile0").remove();
+
+        // let image = "url('images/A.jpg')";
+        // let tiles = $("<div>").addClass("tiles");
+        // let id = "#" + getLetter(0);
+        // tiles.css("background-image", image);
+        // tiles.attr("value", "A");
+        // // $(id).find(':first-child').remove();
+        // // $(id).append(tiles);
+        // $(tiles).appendTo(id).draggable({revert: "invalid"});
+
+
         generateLetter();
         reRackLetter();
     })
 
-    
+
 
 
     //NOTE:
@@ -203,7 +271,63 @@ $(document).ready(function () {
     // that mean we may need by hang up in the getRandomIndex() since 
     // this function return only the valid index. 
     function getRandomIndex() {
-        return parseInt(Math.random() * 24 % 24);
+        let index;
+        do {
+            index = parseInt(Math.random() * 37 % 27);
+            if (availableLetter <= 7) { //do not need to loop if there is 7 or less letter. just select it
+                for (let i = 0; i < json.pieces.length; i++) {
+                    if (json.pieces[i].quantity > 0) {
+                        return i;
+                    }
+                }
+            }
+        } while (json.pieces[index].quantity <= 0);
+
+        return index;
+    }
+
+    function changeBlankTile(id) {
+        if (value === "_") {
+            let alphabet;
+            let pattern = /^[a-zA-Z]/g; //accept only letter
+            let index;
+         
+            let valid = false;
+            do {
+                alphabet = prompt("Please enter an alphabet only");
+                if (alphabet.match(pattern)) {
+                    alphabet = alphabet.toUpperCase();
+                    index = alphabet.charCodeAt(0) - 65;
+                    alert(index);
+                    if (json.pieces[index].quantity <= 0){
+                        alert("Sorry, Alphabet " + alphabet + " is run out. Try a new alphabet");
+                    }else{
+                        //doing swap blank tile here
+                        json.pieces[index].quantity--;
+                        // let oldLetter = {"letter" : "_", "value" : 0};
+                        // let newLetter = {"letter" : alphabet, "value" : json.pieces[index].value};
+                        // console.log(letters.length);
+                        // let i ;
+                        // for (let j = 0; j < 7; j++){
+                        //     console.log(letters[j].letter);
+                        //     if (letters[j].letter === "_"){
+                        //         console.log("here is not");
+                        //         i = j;
+                        //         break;
+                        //     }
+                        // }
+                        // console.log("what is i " + i);
+                        // letters[i] = newLetter;
+                        let image = "url('images/" + alphabet + ".jpg')";
+                        $("#" + id).css("background-image", image);
+
+                        valid = true;
+                    }
+                }
+                
+            } while (valid === false);
+        }
+
     }
 
 
