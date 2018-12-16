@@ -178,8 +178,8 @@ $(document).ready(function () {
                             // $("#" + originalId).droppable("disable");
                             $("#" + originalId).droppable("option", "disabled", true);
                             // letterID = $(this).attr("id");// for changing blank tile as dorppable
-                            changeBlankTile(originalId);
-
+                            // changeBlankTile(originalId);
+                            changeBlankTile($(this).attr("id"));
                             playedLetter.push($(this).attr("id"));
                             return false; //first tile always put in the center/star tile
                         } else {
@@ -189,7 +189,7 @@ $(document).ready(function () {
 
                                 // letterID = $(this).attr("id");// for changing blank tile as dorppable
 
-                                changeBlankTile(originalId);
+                                changeBlankTile($(this).attr("id"));
                                 return false; // no revert
                             } else {
                                 // console.log("original value is " + originalValue);
@@ -291,40 +291,28 @@ $(document).ready(function () {
             let alphabet;
             let pattern = /^[a-zA-Z]/g; //accept only letter
             let index;
-         
+
             let valid = false;
             do {
                 alphabet = prompt("Please enter an alphabet only");
-                if (alphabet.match(pattern)) {
-                    alphabet = alphabet.toUpperCase();
-                    index = alphabet.charCodeAt(0) - 65;
-                    alert(index);
-                    if (json.pieces[index].quantity <= 0){
-                        alert("Sorry, Alphabet " + alphabet + " is run out. Try a new alphabet");
-                    }else{
-                        //doing swap blank tile here
-                        json.pieces[index].quantity--;
-                        // let oldLetter = {"letter" : "_", "value" : 0};
-                        // let newLetter = {"letter" : alphabet, "value" : json.pieces[index].value};
-                        // console.log(letters.length);
-                        // let i ;
-                        // for (let j = 0; j < 7; j++){
-                        //     console.log(letters[j].letter);
-                        //     if (letters[j].letter === "_"){
-                        //         console.log("here is not");
-                        //         i = j;
-                        //         break;
-                        //     }
-                        // }
-                        // console.log("what is i " + i);
-                        // letters[i] = newLetter;
-                        let image = "url('images/" + alphabet + ".jpg')";
-                        $("#" + id).css("background-image", image);
-
-                        valid = true;
+                if (alphabet === null || alphabet === "") {
+                }else{
+                    if (alphabet.match(pattern)) {
+                        alphabet = alphabet.toUpperCase();
+                        index = alphabet.charCodeAt(0) - 65;
+                        alert(index);
+                        if (json.pieces[index].quantity <= 0) {
+                            alert("Sorry, Alphabet '" + alphabet + "' is run out. Try a new alphabet");
+                        } else {
+                            json.pieces[index].quantity--;
+                            let image = "url('images/" + alphabet + ".jpg')";
+                            $("#" + id).css("background-image", image); //change the letter pic after select a letter
+                            $("#" + originalId).attr("value", alphabet); //set value for the tile to the board
+                            valid = true;
+                        }
                     }
                 }
-                
+
             } while (valid === false);
         }
 

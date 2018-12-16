@@ -94,8 +94,8 @@ $(function () {
     // let putBack = false; // allow play to put letter back to the stand
     $(".snap").droppable({ //position the tile to the center of the block
         out: function () {
-            $(this).droppable("option", "disabled", false);
-            // console.log('im out ' + $(this).attr('id'));
+            // $(this).droppable("option", "disabled", false);
+            console.log('im out ' + $(this).attr('id'));
         },
         drop: function (event, ui) {
             let id = $(this).attr("id");
@@ -127,7 +127,7 @@ $(function () {
                 checkDictoinary(id, value); //checking valid words from dictionary
                 calculatePlayScore(value, cls.slice(9, 11)); //calculate the score each time user play (not total score)
 
-                console.log("who drop first");
+                // console.log("who drop first");
                 let sindex; //find index of the drop letter and remove it
                 for (let i = 0; i < letters.length; i++) {
                     if (value === letters[i].letter) {
@@ -182,8 +182,8 @@ $(function () {
         } else {
             adjacentTile = false;
         }
-        console.log("hw is " + hw);
-        console.log("vw is " + vw);
+        // console.log("hw is " + hw);
+        // console.log("vw is " + vw);
     }
 
 
