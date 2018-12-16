@@ -178,8 +178,8 @@ $(document).ready(function () {
                             // $("#" + originalId).droppable("disable");
                             $("#" + originalId).droppable("option", "disabled", true);
                             // letterID = $(this).attr("id");// for changing blank tile as dorppable
-                            // changeBlankTile(originalId);
-                            changeBlankTile($(this).attr("id"));
+                          
+                            // changeBlankTile($(this).attr("id"));
                             playedLetter.push($(this).attr("id"));
                             return false; //first tile always put in the center/star tile
                         } else {
@@ -189,7 +189,7 @@ $(document).ready(function () {
 
                                 // letterID = $(this).attr("id");// for changing blank tile as dorppable
 
-                                changeBlankTile($(this).attr("id"));
+                                // changeBlankTile($(this).attr("id"));
                                 return false; // no revert
                             } else {
                                 // console.log("original value is " + originalValue);
@@ -215,8 +215,8 @@ $(document).ready(function () {
                     }
                 },
                 drag: function () {
-
-                    value = $(this).attr("value");
+                    draggableId = $(this).attr("id"); // we need this to remove the value when player change the location of the tile
+                    value = $(this).attr("value"); //save current value when play drop to droppable
 
 
                 }
@@ -228,33 +228,13 @@ $(document).ready(function () {
 
 
     $("#swap").click(function () { //when user want to change the their letter with the bag letter
-        console.log(letters);
         for (let i = 0; i < letters.length; i++) {
             let l = letters[i].letter;
-            console.log(l);
-            console.log(l === "_");
             let index = (l === "_") ? 26 : parseInt(l.charCodeAt(0)) - 65; //calculate the index of json
-            console.log("index is " + index);
             json.pieces[index].quantity = json.pieces[index].quantity + 1; //put all the letter back to the bag for swap
             availableLetter++;
         }
-        // console.log(json.pieces);
         letters.length = 0; //clear letter array
-        console.log(tileID);
-        console.log(playedLetter);
-
-        // $("#tile0").remove();
-
-        // let image = "url('images/A.jpg')";
-        // let tiles = $("<div>").addClass("tiles");
-        // let id = "#" + getLetter(0);
-        // tiles.css("background-image", image);
-        // tiles.attr("value", "A");
-        // // $(id).find(':first-child').remove();
-        // // $(id).append(tiles);
-        // $(tiles).appendTo(id).draggable({revert: "invalid"});
-
-
         generateLetter();
         reRackLetter();
     })
@@ -286,37 +266,7 @@ $(document).ready(function () {
         return index;
     }
 
-    function changeBlankTile(id) {
-        if (value === "_") {
-            let alphabet;
-            let pattern = /^[a-zA-Z]/g; //accept only letter
-            let index;
-
-            let valid = false;
-            do {
-                alphabet = prompt("Please enter an alphabet only");
-                if (alphabet === null || alphabet === "") {
-                }else{
-                    if (alphabet.match(pattern)) {
-                        alphabet = alphabet.toUpperCase();
-                        index = alphabet.charCodeAt(0) - 65;
-                        alert(index);
-                        if (json.pieces[index].quantity <= 0) {
-                            alert("Sorry, Alphabet '" + alphabet + "' is run out. Try a new alphabet");
-                        } else {
-                            json.pieces[index].quantity--;
-                            let image = "url('images/" + alphabet + ".jpg')";
-                            $("#" + id).css("background-image", image); //change the letter pic after select a letter
-                            $("#" + originalId).attr("value", alphabet); //set value for the tile to the board
-                            valid = true;
-                        }
-                    }
-                }
-
-            } while (valid === false);
-        }
-
-    }
+  
 
 
 

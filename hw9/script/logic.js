@@ -7,6 +7,7 @@ let objValue; //when the drag is reverted, the drop will remove an element from 
 let letterID; //when dragging a blank tile, we need to ask what letter to substitute and change it background image
 let adjacentTile = false; // check if player play tile next to the other tile
 let originalValue, originalId;
+let draggableId;
 $(function () {
     function getWords(id, words, orentation = true) {
         let bidn, fidn, bvalue, fvalue, la, lb, next, prev;
@@ -89,19 +90,28 @@ $(function () {
     //     }
         
     // });
+
     // let gameStart = false; //check if player play the star tile first
     // let adjacentTile = false; // check if player play tile next to the other tile
     // let putBack = false; // allow play to put letter back to the stand
+    let dropout = false;
     $(".snap").droppable({ //position the tile to the center of the block
+        
         out: function () {
             // $(this).droppable("option", "disabled", false);
-            console.log('im out ' + $(this).attr('id'));
+            if (!dropout){ //prevent this function remove other value other than the drap out one. since out is trigger when it hover ther droppable item. 
+                $(this).removeAttr("value");
+                dropout = true;
+            }
+            // console.log('im out ' + $(this).attr('id'));
+            
         },
         drop: function (event, ui) {
             let id = $(this).attr("id");
             let cls = $(this).attr("class");
             let star = $("#h7").attr("value"); //check if the star tile is already play
             // console.log(id);
+            dropout = false;
 
             if (cls.slice(5, 16) === "letterStand") {
                 putBack = true;
@@ -115,12 +125,13 @@ $(function () {
             } else {
 
                 gameStart = true;
-                // console.log("drop first");
+                // console.log("im in again " + id);
+                
 
                 originalValue = $("#" + id).attr("value");
                 originalId = id;
                 // console.log(originalValue);
-
+                changeBlankTile(draggableId);
                 // alert("value is " + value + letterID);
                 $("#" + id).attr("value", value); //set the value to dropped element
                 
@@ -148,7 +159,7 @@ $(function () {
                     $(this).animate(pos, 20, "linear");
                 }
             })
-            $( this ).droppable( "option", "disabled", true );
+            // $( this ).droppable( "option", "disabled", true );
 
             // $(this).droppable("option", "disabled", true);
             // console.log("drop id " + id);
@@ -167,7 +178,16 @@ $(function () {
             let index = playedLetter.indexOf(id);
             // playedLetter.splice(index, 1); //remove that id if user put it back
             // console.log("remove played " + playedLetter);
+            ui.draggable.position({ //https://api.jqueryui.com/position/
+                my: "center",
+                at: "center",
+                of: $(this),
+                using: function (pos) {
+                    $(this).animate(pos, 20, "linear");
+                }
+            })
         }
+        
 
     })
 
@@ -182,9 +202,46 @@ $(function () {
         } else {
             adjacentTile = false;
         }
-        // console.log("hw is " + hw);
-        // console.log("vw is " + vw);
+        console.log("hw is " + hw);
+        console.log("vw is " + vw);
     }
+
+
+
+    function changeBlankTile(id) {
+        if (value === "_") {
+            let alphabet;
+            let pattern = /^[a-zA-Z]/g; //accept only letter
+            let index;
+
+            let valid = false;
+            do {
+                alphabet = prompt("Please enter an alphabet only");
+                if (alphabet === null || alphabet === "") {
+                }else{
+                    if (alphabet.match(pattern)) {
+                        alphabet = alphabet.toUpperCase();
+                        index = alphabet.charCodeAt(0) - 65;
+                        alert(index);
+                        if (json.pieces[index].quantity <= 0) {
+                            alert("Sorry, Alphabet '" + alphabet + "' is run out. Try a new alphabet");
+                        } else {
+                            json.pieces[index].quantity--;
+                            let image = "url('images/" + alphabet + ".jpg')";
+                            value = alphabet; //becuase the value is not the "_" any more, we need to update it and pass it to the tile and dictionary checking
+                            $("#" + id).css("background-image", image); //change the letter pic after select a letter
+                            $("#" + id).attr("value", alphabet);
+                            $("#" + originalId).attr("value", alphabet); //set value for the tile to the board
+                            valid = true;
+                        }
+                    }
+                }
+
+            } while (valid === false);
+        }
+
+    }
+
 
 
     let totalGameScore, totalPlayScore = 0;
