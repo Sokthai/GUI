@@ -270,6 +270,13 @@ $(document).ready(function () {
     // if the make letter is running low in the bag, 
     // that mean we may need by hang up in the getRandomIndex() since 
     // this function return only the valid index. 
+    //SOLUTION:
+    // Delete the letter/object of the json.piece whenever it become zero
+    // this way we reduce the running time to search for the new letter.
+    // CAUTION: Because the letter on the rack also draw of the bag, 
+    // and some letter has only one letter. that mean even if the bag
+    // indicate of zero letter of that letter, it actually not play.
+    // player potentially swap the letter and put it back.
     function getRandomIndex() {
         let index;
         do {
