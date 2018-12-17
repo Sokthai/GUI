@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<!-- 
+    Sokthai Tang
+    HW9: Scrabble game 
+    Using jQuery drag and drop UI library to implement the graphic  
+    Dec/07/18 
+-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Scrabble Game</title>
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+    <link rel="icon" href="images/icon.png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="script/myscript.js"></script>
+    <script src="script/pieces.json"></script>
+    <script src="script/logic.js"></script>
+
+
+</head>
+
+<body>
+    <div id="scrabble">
+        <div id="table"></div>
+        <div id="playerBoard">
+            <div id="player">
+                <div id="rack">
+                    <!-- player one-->
+                    <!-- <div id="stand"> -->
+                    <table class="standTable">
+                        <tr>
+                            <td id="a" class="snapRack letterStand"></td>
+                            <td id="b" class="snapRack letterStand"></td>
+                            <td id="c" class="snapRack letterStand"></td>
+                            <td id="d" class="snapRack letterStand"></td>
+                            <td id="e" class="snapRack letterStand"></td>
+                            <td id="f" class="snapRack letterStand"></td>
+                            <td id="g" class="snapRack letterStand"></td>
+                        </tr>
+                    </table>
+                    <!-- </div> -->
+                </div>
+                <button id="swap" class="button">Swap</button>
+                <button id="play" class="button">Play</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

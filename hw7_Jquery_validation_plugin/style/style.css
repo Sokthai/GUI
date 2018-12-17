@@ -142,12 +142,20 @@ h2{
 
 p{
     padding-top: 30px;
+<<<<<<< HEAD
+=======
+    
+>>>>>>> fc0bfc01ae6643219bdff93a486ec2a43eec46d2
     text-align: justify;
     margin: auto;
 }
 
 .form-group{
+<<<<<<< HEAD
     height: 50px;
+=======
+    height: 55px;
+>>>>>>> fc0bfc01ae6643219bdff93a486ec2a43eec46d2
 }
 
 /* make form readable when resizing */
