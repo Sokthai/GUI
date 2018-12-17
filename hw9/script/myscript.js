@@ -79,6 +79,7 @@ $(document).ready(function () {
 
     var tileID = [];
     let uniqueNum = 0;
+
     var availableLetter = 100; //English scrabble of 100 letters
 
     function generateLetter() { //generate 7 letter and save to a array of objects
@@ -178,7 +179,7 @@ $(document).ready(function () {
                             // $("#" + originalId).droppable("disable");
                             $("#" + originalId).droppable("option", "disabled", true);
                             // letterID = $(this).attr("id");// for changing blank tile as dorppable
-                          
+
                             // changeBlankTile($(this).attr("id"));
                             playedLetter.push($(this).attr("id"));
                             return false; //first tile always put in the center/star tile
@@ -226,8 +227,19 @@ $(document).ready(function () {
     }
 
 
+    $("#play").click(function () {
+        if (!gameStart || playedLetter.length <= 0) {
+            alert("Please place letter on the board to play");
+        } else {
+            multiplier = (multiplier === 0)? 1 : multiplier;
+            let currentScore = parseInt($("#score").text()) + totalPlayScore * multiplier;
+            $("#score").text(currentScore);
+            $("#swap").prop("disabled", false);
+            swap();
+        }
+    });
 
-    $("#swap").click(function () { //when user want to change the their letter with the bag letter
+    function swap() { //when user want to change the their letter with the bag letter
         for (let i = 0; i < letters.length; i++) {
             let l = letters[i].letter;
             let index = (l === "_") ? 26 : parseInt(l.charCodeAt(0)) - 65; //calculate the index of json
@@ -235,9 +247,27 @@ $(document).ready(function () {
             availableLetter++;
         }
         letters.length = 0; //clear letter array
+        $("#availableLetter").text(availableLetter);
         generateLetter();
         reRackLetter();
-    })
+        $(this).prop("disabled", true);
+    }
+
+    // $("#swap").click(function () { //when user want to change the their letter with the bag letter
+        
+    //     for (let i = 0; i < letters.length; i++) {
+    //         let l = letters[i].letter;
+    //         let index = (l === "_") ? 26 : parseInt(l.charCodeAt(0)) - 65; //calculate the index of json
+    //         json.pieces[index].quantity = json.pieces[index].quantity + 1; //put all the letter back to the bag for swap
+    //         availableLetter++;
+    //         console.log("really");
+    //     }
+    //     letters.length = 0; //clear letter array
+    //     $("#availableLetter").text(availableLetter);
+    //     generateLetter();
+    //     reRackLetter();
+    //     $(this).prop("disabled", true);
+    // })
 
 
 
@@ -266,7 +296,7 @@ $(document).ready(function () {
         return index;
     }
 
-  
+
 
 
 

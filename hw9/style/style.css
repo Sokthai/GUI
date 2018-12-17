@@ -93,21 +93,34 @@ tr{
     left: 20px;
 }
 
+#swap:disabled{
+    color: gray;
+    background-image: url("../images/disableButton.png");
+}
+
+#swap:disabled:hover{
+    box-shadow: none;
+
+}
+
 #play{  
     left: 100px;
 }
 
 .button{
-    
-    background-color: #555555;
+    background-image: url("../images/activeButton.png");
+    /* background-color: #4CAF50; */
     position: absolute;
     bottom: 0px;
     text-align: center;
     font-size: 15px;
     padding: 8px 15px;
     border: none;
-    color: white;
+    color: black;
+    font-weight: bold;
     cursor: pointer;
+    border-radius: 4px;
+    width: 70px;
     
 }
 
@@ -125,7 +138,26 @@ tr{
 
 }
 
-
+.scoreBoard{
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    margin-left : 80px;
+    position: absolute;
+    height: 60px;
+    width: 430px;
+    top: 10px;
+    border: 1px solid green;
+    
+    
+}
+.scoreBoard > p{
+    /* border: 1px solid blue; */
+    margin-top: 0px;
+    margin-left: 20px;
+    width: 250px;
+    text-align: left;
+    
+}
 
 
 
