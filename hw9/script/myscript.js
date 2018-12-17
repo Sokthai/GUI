@@ -163,7 +163,6 @@ $(document).ready(function () {
 
 
 
-            // $(id).append(tiles);
             $(tiles).appendTo(id).draggable({ //https://jqueryui.com/draggable/
                 snap: ".snap",
                 snapMode: "inner",
@@ -171,35 +170,23 @@ $(document).ready(function () {
                     if (putBack) {
                         return false; //allow to put back to stand
                     }
-                    if (gameStart) {
-
+                    if (gameStart) { //game start after the star grid is occupied
                         if (firstTile) {
                             firstTile = false;
                             $(this).draggable("disable");
-                            // $("#" + originalId).droppable("disable");
                             $("#" + originalId).droppable("option", "disabled", true);
-                            // letterID = $(this).attr("id");// for changing blank tile as dorppable
-
-                            // changeBlankTile($(this).attr("id"));
                             playedLetter.push($(this).attr("id"));
                             return false; //first tile always put in the center/star tile
                         } else {
                             if (adjacentTile) {
                                 playedLetter.push($(this).attr("id"));
-                                // alert("need to be in straight line . revert first af");
-
-                                // letterID = $(this).attr("id");// for changing blank tile as dorppable
-
-                                // changeBlankTile($(this).attr("id"));
                                 return false; // no revert
                             } else {
-                                // console.log("original value is " + originalValue);
                                 if (originalValue === undefined) {
                                     $("#" + originalId).removeAttr("value");
                                 } else {
                                     $("#" + originalId).attr("value", originalValue);
                                 }
-
                                 letters.push(objValue); //when reverted, we put object back to letter[]
                                 alert("need to be in straight line . revert first 1");
                                 $("#play").attr("disabled", "disabled");
@@ -234,7 +221,7 @@ $(document).ready(function () {
             multiplier = (multiplier === 0)? 1 : multiplier;
             let currentScore = parseInt($("#score").text()) + totalPlayScore * multiplier;
             $("#score").text(currentScore);
-            $("#swap").prop("disabled", false);
+            //$("#swap").prop("disabled", false);
             swap();
         }
     });
