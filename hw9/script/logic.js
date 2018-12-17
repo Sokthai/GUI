@@ -41,9 +41,9 @@ $(function () {
             }
         } while (bvalue !== undefined || fvalue !== undefined);
         return words;
-    }  
+    }
 
-  
+
     let dropout = false;
     $(".snap").droppable({ //position the tile to the center of the block
 
@@ -73,6 +73,16 @@ $(function () {
 
                 gameStart = true;
 
+                let sindex; //find index of the drop letter and remove it
+                console.log("value is " + value);
+                for (let i = 0; i < letters.length; i++) {
+                    if (value === letters[i].letter) {
+                        objValue = letters[i]; //save the remove elemet in case it reverted 
+                        sindex = i;
+                        break;
+                    }
+                }
+                letters.splice(sindex, 1); //remove letter from the rack array after play
 
                 originalValue = $("#" + id).attr("value");
                 originalId = id;
@@ -82,15 +92,7 @@ $(function () {
                 checkDictoinary(id, value); //checking valid words from dictionary
                 calculatePlayScore(value, cls.slice(9, 11)); //calculate the score each time user play (not total score)
 
-                let sindex; //find index of the drop letter and remove it
-                for (let i = 0; i < letters.length; i++) {
-                    if (value === letters[i].letter) {
-                        objValue = letters[i]; //save the remove elemet in case it reverted 
-                        sindex = i;
-                        break;
-                    }
-                }
-                letters.splice(sindex, 1); //remove letter from the rack array after play
+       
             }
 
             ui.draggable.position({ //https://api.jqueryui.com/position/
@@ -145,7 +147,7 @@ $(function () {
             let alphabet;
             let pattern = /^[a-zA-Z]/g; //accept only letter
             let index;
-
+ 
             let valid = false;
             do {
                 alphabet = prompt("Please enter an alphabet only");
@@ -168,6 +170,7 @@ $(function () {
                     }
                 }
             } while (valid === false);
+      
         }
 
     }
@@ -198,7 +201,7 @@ $(function () {
     //          to the those individual total score we calculate in step 1;
     //          NOTE: to find the value of the character. 
     //          search if from json file.
-     
+
 
     function calculatePlayScore(value, cls) {
 

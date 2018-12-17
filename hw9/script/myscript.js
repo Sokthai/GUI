@@ -227,8 +227,11 @@ $(document).ready(function () {
     });
 
     function swap() { //when user want to change the their letter with the bag letter
+        console.log("remain in letter array");
+        console.log(letters);
         for (let i = 0; i < letters.length; i++) {
             let l = letters[i].letter;
+            console.log(l);
             let index = (l === "_") ? 26 : parseInt(l.charCodeAt(0)) - 65; //calculate the index of json
             json.pieces[index].quantity = json.pieces[index].quantity + 1; //put all the letter back to the bag for swap
             availableLetter++;
