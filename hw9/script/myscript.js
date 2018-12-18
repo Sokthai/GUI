@@ -83,9 +83,6 @@ $(document).ready(function () {
     // readJson("script/pieces.json");
 
 
-
-
-
     var tileID = [];
     let uniqueNum = 0;
 
@@ -268,11 +265,6 @@ $(document).ready(function () {
             availableLetter++;
         }
 
-        // for (let i = 0; i < json.pieces.length; i++) {
-        //     if (json.pieces[i].quantity <= 0) {
-        //         json.pieces.splice(i, 1); // remove the empty letter from bag
-        //     }
-        // }
 
         letters.length = 0; //clear letter array
         $("#availableLetter").text(availableLetter);
@@ -281,63 +273,15 @@ $(document).ready(function () {
         $(this).prop("disabled", true);
     }
 
-    // $("#swap").click(function () { //when user want to change the their letter with the bag letter
-
-    //     for (let i = 0; i < letters.length; i++) {
-    //         let l = letters[i].letter;
-    //         let index = (l === "_") ? 26 : parseInt(l.charCodeAt(0)) - 65; //calculate the index of json
-    //         json.pieces[index].quantity = json.pieces[index].quantity + 1; //put all the letter back to the bag for swap
-    //         availableLetter++;
-    //         console.log("really");
-    //     }
-    //     letters.length = 0; //clear letter array
-    //     $("#availableLetter").text(availableLetter);
-    //     generateLetter();
-    //     reRackLetter();
-    //     $(this).prop("disabled", true);
-    // })
 
 
 
-
-    //NOTE:
-    // getRandomIndex should be makine care of the valid index. 
-    // Because some letter may run out, if it quantity is 0 
-    // meaning no more tiles of that letter. 
-    // need to generate a new index.
-    // if the make letter is running low in the bag, 
-    // that mean we may need by hang up in the getRandomIndex() since 
-    // this function return only the valid index. 
-    //SOLUTION:
-    // Delete the letter/object of the json.piece whenever it become zero
-    // this way we reduce the running time to search for the new letter.
-    // CAUTION: Because the letter on the rack also draw of the bag, 
-    // and some letter has only one letter. that mean even if the bag
-    // indicate of zero letter of that letter, it actually not play.
-    // player potentially swap the letter and put it back.
 
     function getRandomIndex() {
-        // console.log("from raining");
-        // console.log(json.pieces.length);
-        return parseInt(Math.random() * 37 % json.pieces.length);
+         return parseInt(Math.random() * 37 % json.pieces.length);
     }
 
 
-    // function getRandomIndex() {
-    //     let index;
-    //     do {
-    //         index = parseInt(Math.random() * 37 % 27);
-    //         if (availableLetter <= 7) { //do not need to loop if there is 7 or less letter. just select it
-    //             for (let i = 0; i < json.pieces.length; i++) {
-    //                 if (json.pieces[i].quantity > 0) {
-    //                     return i;
-    //                 }
-    //             }
-    //         }
-    //     } while (json.pieces[index].quantity <= 0);
-
-    //     return index;
-    // }
 
 
 
