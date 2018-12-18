@@ -8,10 +8,11 @@ let objValue; //when the drag is reverted, the drop will remove an element from 
 let letterID; //when dragging a blank tile, we need to ask what letter to substitute and change it background image
 let adjacentTile = false; // check if player play tile next to the other tile
 let originalValue, originalId; //the originally dropped value and id element
+let originalDropOutID; //This one when the player first drag out of the droppable. 
 let totalGameScore = 0; //total all players score
 let totalPlayScore = 0; //total a player score
 let multiplier = 0; //for double word and tripple word
-
+let revert = false; //check if the grid is already occupied
 
 $(function () {
     function getWords(id, words, orentation = true) { //getting the words from the board
@@ -49,6 +50,8 @@ $(function () {
 
         out: function () {
             if (!dropout) { //prevent this function remove other value other than the drap out one. since out is trigger when it hover ther droppable item. 
+                originalValue = $(this).attr("value");
+                originalDropOutID = $(this).attr("id");
                 $(this).removeAttr("value");
                 dropout = true;
             }
@@ -70,29 +73,32 @@ $(function () {
                 //gameStart = false;
                 // $(".snap").droppable("disable");
             } else {
+                // if (($(this).attr("value")) !== undefined) {
+                //     // ui.draggable.draggable("option", "revert", true);
+                //     revert = true;
+                //     $("#" + originalDropOutID).attr("value", originalValue);
+                // } else {
 
-                gameStart = true;
-
-                let sindex; //find index of the drop letter and remove it
-                console.log("value is " + value);
-                for (let i = 0; i < letters.length; i++) {
-                    if (value === letters[i].letter) {
-                        objValue = letters[i]; //save the remove elemet in case it reverted 
-                        sindex = i;
-                        break;
+                    gameStart = true;
+                    let sindex; //find index of the drop letter and remove it
+                    for (let i = 0; i < letters.length; i++) {
+                        if (value === letters[i].letter) {
+                            objValue = letters[i]; //save the remove elemet in case it reverted 
+                            sindex = i;
+                            break;
+                        }
                     }
-                }
-                letters.splice(sindex, 1); //remove letter from the rack array after play
 
-                originalValue = $("#" + id).attr("value");
-                originalId = id;
-                changeBlankTile(draggableId);
-                $("#" + id).attr("value", value); //set the value to dropped element
+                    letters.splice(sindex, 1); //remove letter from the rack array after play
 
-                checkDictoinary(id, value); //checking valid words from dictionary
-                calculatePlayScore(value, cls.slice(9, 11)); //calculate the score each time user play (not total score)
+                    originalId = id;
+                    changeBlankTile(draggableId);
+                    $(this).attr("value", value); //set the value to dropped element
 
-       
+                    checkDictoinary(id, value); //checking valid words from dictionary
+                    calculatePlayScore(value, cls.slice(9, 11)); //calculate the score each time user play (not total score)
+                // }
+
             }
 
             ui.draggable.position({ //https://api.jqueryui.com/position/
@@ -134,8 +140,8 @@ $(function () {
         } else {
             adjacentTile = false;
         }
-        console.log("hw is " + hw);
-        console.log("vertical word is " + vw);
+        // console.log("hw is " + hw);
+        // console.log("vertical word is " + vw);
 
         //check valid word here
     }
@@ -147,19 +153,28 @@ $(function () {
             let alphabet;
             let pattern = /^[a-zA-Z]/g; //accept only letter
             let index;
- 
+
             let valid = false;
             do {
                 alphabet = prompt("Please enter an alphabet only");
                 if (alphabet === null || alphabet === "") {} else {
                     if (alphabet.match(pattern)) {
                         alphabet = alphabet.toUpperCase();
-                        index = alphabet.charCodeAt(0) - 65;
-                        // alert(index);
-                        if (json.pieces[index].quantity <= 0) {
+                        for (let i = 0; i < json.pieces.length; i++) {
+                            if (alphabet === json.pieces[i].letter) {
+                                index = i;
+                                break;
+                            }
+                        }
+                        if (index === undefined) { //no that particular letter in the bag, try again
                             alert("Sorry, Alphabet '" + alphabet + "' is run out. Try a new alphabet");
                         } else {
-                            json.pieces[index].quantity--;
+                            json.pieces[index].quantity--
+                            if (json.pieces[index].quantity === 0) {
+                                json.pieces.splice(index, 1); //remove the letter from bag is zero remain 
+                            }
+
+
                             let image = "url('images/" + alphabet + ".jpg')";
                             value = alphabet; //becuase the value is not the "_" any more, we need to update it and pass it to the tile and dictionary checking
                             $("#" + id).css("background-image", image); //change the letter pic after select a letter
@@ -170,7 +185,7 @@ $(function () {
                     }
                 }
             } while (valid === false);
-      
+
         }
 
     }
@@ -205,10 +220,10 @@ $(function () {
 
     function calculatePlayScore(value, cls) {
 
-        //        let index = parseInt(value.charCodeAt(0)) - 65; //calculate the index of json
+        // let index = parseInt(value.charCodeAt(0)) - 65; //calculate the index of json
         let index = (value === "_") ? 26 : parseInt(value.charCodeAt(0)) - 65; //calculate the index of json
 
-        let playscore = parseInt(json.pieces[index].value); //get the corresponding value from the json/bag 
+        let playscore = parseInt(json.value[index].value); //get the corresponding value from the json/bag 
         if (cls === "tl") {
             playscore *= 3;
         } else if (cls === "dl") {
