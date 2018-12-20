@@ -1,0 +1,14 @@
+In this assignment, i have created the full board game. up to this point, I have implemented 
+all the features for the complete game. The getword() function is correctly collecting the 
+letters and form the word either vertically or horizonally. i intented to use this function
+to check with dictionary funciton. however i have not yet implemente the dictionary checking feature.
+for that reason, i don't make use of getword() for this project. i'll do it later. the calculatePlayScore() 
+function is implemented, but it don't work correctly. But i do put the solution to correct the problem. 
+the play button sometime is not working, you will need to refresh to start again. 
+so, there are 3 missing features to fully complete this game.
+one is the dictionary checking, scoring and put more player (up to 4) to correctly and completely 
+finish this game. I will finish this game after all my final exams.
+
+Thank you
+Sokthai Tang
+Dec/19/18

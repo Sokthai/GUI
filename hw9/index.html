@@ -1,10 +1,13 @@
 <!doctype html>
 <html lang="en">
 <!-- 
-    Sokthai Tang
-    HW9: Scrabble game 
-    Using jQuery drag and drop UI library to implement the graphic  
-    Dec/07/18 
+    Sokthai Tang 
+    UMass Lowell
+    GUI I 
+    HW9
+    Using jQuery drag and drop UI Library
+    Created by ST on Dec/07/2018
+    Updateed on 12/19/18
 -->
 <head>
     <meta charset="utf-8">
@@ -26,6 +29,12 @@
     <div id="scrabble">
         <div id="table"></div>
         <div id="playerBoard">
+            <div class="scoreBoard">
+                <p>CURRENT SCORE: <span id="score">0</span></p>
+                <p>AVALIABLE LETTERS: <span id="availableLetter">100</span></p>
+
+            </div>
+
             <div id="player">
                 <div id="rack">
                     <!-- player one-->
@@ -43,9 +52,12 @@
                     </table>
                     <!-- </div> -->
                 </div>
-                <button id="swap" class="button">Swap</button>
+                <!-- <button id="swap" class="button" disabled>Swap</button> -->
                 <button id="play" class="button">Play</button>
             </div>
+
+         
+
         </div>
     </div>
 </body>

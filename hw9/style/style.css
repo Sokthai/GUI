@@ -57,7 +57,7 @@ tr{
     
 }
 #rack{
-    border: 2px solid purple;
+    /* border: 2px solid purple; */
     position: absolute;
     width: 420px;
     height: 60px;
@@ -66,7 +66,7 @@ tr{
 }
 
 #stand{
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
     width: 390px;
     height: 44px;
     position: absolute;
@@ -81,11 +81,11 @@ tr{
     right: 25px;
     top: 10px;
     border-spacing: 10px 0px;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 .standTable td{
-    border: 1px solid green;
+    border: none;
     position: relative;
 }
 
@@ -93,21 +93,34 @@ tr{
     left: 20px;
 }
 
+#swap:disabled{
+    color: gray;
+    background-image: url("../images/disableButton.png");
+}
+
+#swap:disabled:hover{
+    box-shadow: none;
+
+}
+
 #play{  
     left: 100px;
 }
 
 .button{
-    
-    background-color: #555555;
+    background-image: url("../images/activeButton.png");
+    /* background-color: #4CAF50; */
     position: absolute;
     bottom: 0px;
     text-align: center;
     font-size: 15px;
     padding: 8px 15px;
     border: none;
-    color: white;
+    color: black;
+    font-weight: bold;
     cursor: pointer;
+    border-radius: 4px;
+    width: 70px;
     
 }
 
@@ -117,7 +130,7 @@ tr{
 
 #player{
     position: absolute;
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
     width: 430px;
     height: 100px;
     top: 80px;
@@ -125,15 +138,34 @@ tr{
 
 }
 
-
+.scoreBoard{
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    margin-left : 80px;
+    position: absolute;
+    height: 60px;
+    width: 430px;
+    top: 10px;
+    /* border: 1px solid green; */
+    
+    
+}
+.scoreBoard > p{
+    /* border: 1px solid blue; */
+    margin-top: 0px;
+    margin-left: 20px;
+    width: 250px;
+    text-align: left;
+    
+}
 
 
 
 #playerBoard{
-    border: 1px solid red;
+    border: 5px solid green;
     display: inline-block;
     width: 600px;
-    height: 598px;
+    height: 590px;
     position: absolute;
     top: 0px;
     margin-left: 20px;
@@ -187,7 +219,7 @@ tr{
     #playerBoard{
         display: block;
         top: 600px;
-        width: 628px;
+        width: 620px;
         margin: 10px 50px;
         left: 0px;
     }
