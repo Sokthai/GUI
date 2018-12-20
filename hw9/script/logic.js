@@ -1,3 +1,16 @@
+/*
+    Sokthai Tang 
+    UMass Lowell
+    GUI I 
+    HW9
+    Using jQuery drag and drop UI Library
+    Created by ST on Dec/07/2018
+    Updateed on 12/08/18
+*/
+
+
+
+
 // this is the logic and rule of the Scrabble game
 let putBack = false; // allow play to put letter back to the stand
 let firstTile = true;
@@ -73,11 +86,11 @@ $(function () {
                 //gameStart = false;
                 // $(".snap").droppable("disable");
             } else {
-                // if (($(this).attr("value")) !== undefined) {
-                //     // ui.draggable.draggable("option", "revert", true);
-                //     revert = true;
-                //     $("#" + originalDropOutID).attr("value", originalValue);
-                // } else {
+                if (($(this).attr("value")) !== undefined) {
+                    // ui.draggable.draggable("option", "revert", true);
+                    revert = true;
+                    $("#" + originalDropOutID).attr("value", originalValue);
+                } else {
 
                     gameStart = true;
                     let sindex; //find index of the drop letter and remove it
@@ -88,7 +101,6 @@ $(function () {
                             break;
                         }
                     }
-
                     letters.splice(sindex, 1); //remove letter from the rack array after play
 
                     originalId = id;
@@ -97,7 +109,7 @@ $(function () {
 
                     checkDictoinary(id, value); //checking valid words from dictionary
                     calculatePlayScore(value, cls.slice(9, 11)); //calculate the score each time user play (not total score)
-                // }
+                }
 
             }
 
@@ -243,7 +255,6 @@ $(function () {
         // console.log("letter score " + playscore);
         // console.log("totalPlayScore " + totalPlayScore);
         // console.log("tota game score " + totalGameScore);
-
 
     }
 

@@ -5,7 +5,7 @@
     HW9
     Using jQuery drag and drop UI Library
     Created by ST on Dec/07/2018
-    Updateed on 12/08/18
+    Updateed on 12/19/18
 */
 
 //make it global so other file can access this objects;
@@ -23,14 +23,10 @@ let json = (function () { //getting letters from json file and save to a variabl
     return json;
 })();
 
-var letters = [];
+var letters = []; //The 7 letter tiles array
 var playedLetter = []; //save the rack tile index to remove its child when swapping
 
 $(document).ready(function () {
-
-
-
-
 
 
     generateTable();
@@ -94,19 +90,19 @@ $(document).ready(function () {
 
             let randomIndex = getRandomIndex();
             let letter = (json.pieces[randomIndex].letter).toUpperCase();
-            let valueIndex = (letter === "_")? 26: parseInt(letter.charCodeAt(0)) - 65;
+            let valueIndex = (letter === "_") ? 26 : parseInt(letter.charCodeAt(0)) - 65;
             let obj = { //save the letter and its value
                 "letter": letter,
                 "value": json.value[valueIndex].value
             };
             json.pieces[randomIndex].quantity--; //minus one after take one letter from the bag 
-      
+
             letters.push(obj);
             availableLetter--; //minus a letter each time a letter is used
             if (json.pieces[randomIndex].quantity <= 0) {
                 json.pieces.splice(randomIndex, 1); // remove the empty letter from bag
             }
-          
+
         }
         // console.log(letters);
         // console.log(json.pieces);
@@ -171,10 +167,6 @@ $(document).ready(function () {
             tileID.push("tile" + uniqueNum);
             uniqueNum++;
 
-
-
-
-
             $(tiles).appendTo(id).draggable({ //https://jqueryui.com/draggable/
                 snap: ".snap",
                 snapMode: "inner",
@@ -186,26 +178,19 @@ $(document).ready(function () {
                         if (firstTile) {
                             firstTile = false;
                             $(this).draggable("disable");
-                            // $("#" + originalId).droppable("option", "disabled", true);
                             playedLetter.push($(this).attr("id"));
                             return false; //first tile always put in the center/star tile
                         } else {
-                            // if (revert){
-                            //     return true;
-                            // }
+                            if (revert) { //if the grid already occupied, revert it
+                                revert = false;
+                                return true;
+                            }
                             if (adjacentTile) {
                                 playedLetter.push($(this).attr("id"));
                                 return false; // no revert
                             } else {
-                                // console.log(ui.droppable.attr("id"));
-                                // console.log(originalValue);
-                                // if (originalValue === undefined) {
-                                    $("#" + originalId).removeAttr("value");
-                                // } else {
-                                    $("#" + originalDropOutID).attr("value", originalValue);
-                                   
-                                // }
-
+                                $("#" + originalId).removeAttr("value");
+                                $("#" + originalDropOutID).attr("value", originalValue);
                                 letters.push(objValue); //when reverted, we put object back to letter[]
                                 alert("need to be in straight line . revert first 1");
                                 $("#play").attr("disabled", "disabled");
@@ -238,7 +223,7 @@ $(document).ready(function () {
             multiplier = (multiplier === 0) ? 1 : multiplier;
             let currentScore = parseInt($("#score").text()) + totalPlayScore * multiplier;
             $("#score").text(currentScore);
-            for (let i = 0; i < playedLetter.length; i++){
+            for (let i = 0; i < playedLetter.length; i++) {
                 $("#" + playedLetter[i]).draggable("disable");
             }
             //$("#swap").prop("disabled", false);
@@ -278,7 +263,7 @@ $(document).ready(function () {
 
 
     function getRandomIndex() {
-         return parseInt(Math.random() * 37 % json.pieces.length);
+        return parseInt(Math.random() * 37 % json.pieces.length);
     }
 
 
