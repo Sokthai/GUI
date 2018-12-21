@@ -15,7 +15,7 @@
 let putBack = false; // allow play to put letter back to the stand
 let firstTile = true;
 let gameStart = false; //check if player play the star tile first
-let value; //value from drag element
+// let value; //value from drag element
 let draggableId; //id from drag element
 let objValue; //when the drag is reverted, the drop will remove an element from letters. we need to put back to letters[] at revert option of draggable
 let letterID; //when dragging a blank tile, we need to ask what letter to substitute and change it background image
@@ -26,7 +26,7 @@ let totalGameScore = 0; //total all players score
 let totalPlayScore = 0; //total a player score
 let multiplier = 0; //for double word and tripple word
 let revert = false; //check if the grid is already occupied
-
+let dropoutFromRackID = false; //this is when player drop a tile from rack back to rack.
 $(function () {
     function getWords(id, words, orentation = true) { //getting the words from the board
         let bidn, fidn, bvalue, fvalue, la, lb, next, prev;
@@ -59,6 +59,8 @@ $(function () {
 
 
     let dropout = false;
+    let value; //value from drag element
+
     $(".snap").droppable({ //position the tile to the center of the block
 
         out: function () {
@@ -75,12 +77,13 @@ $(function () {
             let cls = $(this).attr("class");
             let star = $("#h7").attr("value"); //check if the star tile is already play
             dropout = false;
-
-            if (cls.slice(5, 16) === "letterStand") {
-                putBack = true;
-            } else {
-                putBack = false;
-            }
+            value = ui.draggable.attr("value");
+            // console.log("put back " + cls.slice(5, 16));
+            // if (cls.slice(5, 16) === "letterStand") {
+            //     putBack = true;
+            // } else {
+            //     putBack = false;
+            // }
 
             if (id !== "h7" && star === undefined) {
                 //gameStart = false;
@@ -104,7 +107,9 @@ $(function () {
                     letters.splice(sindex, 1); //remove letter from the rack array after play
 
                     originalId = id;
-                    changeBlankTile(draggableId);
+                    changeBlankTile(ui.draggable.attr("id"));
+                    // $(this).attr("value", ui.draggable.attr("value")); //set the value to dropped element
+
                     $(this).attr("value", value); //set the value to dropped element
 
                     checkDictoinary(id, value); //checking valid words from dictionary
@@ -125,11 +130,29 @@ $(function () {
         }
     })
 
+
+    let dropoutFromRack = false; //for when user drop from rack back to rack
     $(".snapRack").droppable({
         out: function () {
-            //let id = $(this).attr('id');
+            if (!dropoutFromRack){
+                console.log("from rack to rack");
+                dropoutFromRackID = true;
+                dropoutFromRack = true;
+            }
+            console.log("youu work hree");
+
         },
         drop: function (event, ui) {
+            let cls = $(this).attr("class");
+            if (cls.slice(9, 20) === "letterStand") {
+                if ($("#h7").attr("value") === undefined){
+                    firstTile = true;
+                    gameStart = false;
+                }
+                putBack = true;
+            } 
+            dropoutFromRack = false;
+
             ui.draggable.position({ //https://api.jqueryui.com/position/
                 my: "center",
                 at: "center",

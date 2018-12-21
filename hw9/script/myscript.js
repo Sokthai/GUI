@@ -92,8 +92,8 @@ $(document).ready(function () {
             let letter = (json.pieces[randomIndex].letter).toUpperCase();
             let valueIndex = (letter === "_") ? 26 : parseInt(letter.charCodeAt(0)) - 65;
             let obj = { //save the letter and its value
-                "letter": letter,
-                "value": json.value[valueIndex].value
+                "letter": letter
+                //"value": json.value[valueIndex].value
             };
             json.pieces[randomIndex].quantity--; //minus one after take one letter from the bag 
 
@@ -171,7 +171,21 @@ $(document).ready(function () {
                 snap: ".snap",
                 snapMode: "inner",
                 revert: function (event, ui) {
+
                     if (putBack) {
+                        console.log("from ? " + dropoutFromRackID);
+                        if (dropoutFromRackID) { //when not drop back from rack to rack
+                            alert("nothing");
+                        } else {
+                            letters.push({
+                                "letter": $(this).attr("value")
+                            });
+                            let v = $(this).attr("id");
+                            playedLetter.splice(playedLetter.indexOf(v), 1);
+                            alert("you go ti mef ");
+                        }
+                        dropoutFromRackID = false;
+                        putBack = false;
                         return false; //allow to put back to stand
                     }
                     if (gameStart) { //game start after the star grid is occupied
@@ -187,13 +201,14 @@ $(document).ready(function () {
                             }
                             if (adjacentTile) {
                                 playedLetter.push($(this).attr("id"));
+                                // $("#play").removeAttr("disabled");
                                 return false; // no revert
                             } else {
                                 $("#" + originalId).removeAttr("value");
                                 $("#" + originalDropOutID).attr("value", originalValue);
                                 letters.push(objValue); //when reverted, we put object back to letter[]
-                                alert("need to be in straight line . revert first 1");
-                                $("#play").attr("disabled", "disabled");
+                                alert("need to be in straight line ");
+                                // $("#play").attr("disabled", "disabled");
                                 return true; //revert
                             }
                         }
@@ -202,21 +217,25 @@ $(document).ready(function () {
 
                         return true; //revert
                     }
+
                 },
                 drag: function () {
-                    draggableId = $(this).attr("id"); // we need this to remove the value when player change the location of the tile
-                    value = $(this).attr("value"); //save current value when play drop to droppable
+                    //draggableId = $(this).attr("id"); // we need this to remove the value when player change the location of the tile
+                    // value = $(this).attr("value"); //save current value when play drop to droppable
 
 
                 }
 
             });
+
         }
     }
 
 
     $("#play").click(function () {
         console.log(playedLetter);
+        console.log(gameStart);
+        console.log(letters);
         if (!gameStart || playedLetter.length <= 0) {
             alert("Please place letter on the board to play");
         } else {
