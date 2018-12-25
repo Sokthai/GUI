@@ -289,6 +289,7 @@ let namespace;
             let totalVwCurrentScore = 0;
             let totalHwCurrentScore = 0;
             let hw, vw, value, cls;
+            let multiply = 1;
             if (playLetterDropID.length === 1) { //if player only put one letter on the board
                 value = $("#" + playLetterDropID[0]).attr("value");
                 hw = getWords(playLetterDropID[0], value); //getting horizonal words
@@ -356,29 +357,30 @@ let namespace;
                             vwCurrentScore += parseInt(json.value[vIndex].value);
                         }
                         
-
                         cls = $("#" + playLetterDropID[i]).attr("class").slice(9, 11); //search for dl, tl, dw, or tw class for premium words
                         index = parseInt(value.charCodeAt(0) - 65);
                         if (cls === "dl"){ //apply premium word or letter to both vertical and horizonal at the same time
                             hwCurrentScore += parseInt(json.value[index].value); //because we alreay add the value of the letter once, so we need to add one more time since "dl"
-                            console.log("im in " + hwCurrentScore + hw[i]);
                             if (start === 0) {vwCurrentScore += parseInt(json.value[index].value);} //if it start from 0, it means it has more than 1 letters
                         }else if(cls === "tl"){
                             hwCurrentScore += (parseInt(json.value[index].value) * 2);  
                             if (start === 0) { vwCurrentScore += parseInt(json.value[index].value) * 2;}
                         }else if (cls === "dw"){
-                            hwCurrentScore *= 2;  
+
+                            multiply *= 2;   //because we can to make sure that we muliply only after every is tally correctly like dl and tl
                             if (start === 0) { vwCurrentScore *= 2;}
                         }else if (cls === "tw"){
-                            hwCurrentScore *= 3; 
+                            multiply *= 3; 
                             if (start === 0) { vwCurrentScore *= 3;}
                         }
                         
                         totalVwCurrentScore += vwCurrentScore;
+                        vwCurrentScore = 0;
                     }
-                    alert("hw after score is " + hwCurrentScore);
+                    alert("hw after score is " + hwCurrentScore * multiply);
                     alert("vw score is " + totalVwCurrentScore);
-                    totalCurrentScore = totalVwCurrentScore + hwCurrentScore;
+                    totalCurrentScore = totalVwCurrentScore + (hwCurrentScore * multiply);
+                    multiply = 1;
                 }else{ //if vertical 
                     alert("vertical working on it");
                 }   
