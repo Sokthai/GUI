@@ -427,8 +427,8 @@ $(document).ready(function () {
     });
 
     function swap() { //when user want to change the their letter with the bag letter
-        // console.log("remain in letter array");
-        // console.log(letters);
+        console.log("remain in letter array");
+        console.log(letters);
         for (let i = 0; i < letters.length; i++) {
             let l = letters[i].letter;
             let index = getLetterPosition(l); //calculate the index of json

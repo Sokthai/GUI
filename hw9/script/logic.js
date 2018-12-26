@@ -381,8 +381,56 @@ let namespace;
                     alert("vw score is " + totalVwCurrentScore);
                     totalCurrentScore = totalVwCurrentScore + (hwCurrentScore * multiply);
                     multiply = 1;
+
                 }else{ //if vertical 
                     alert("vertical working on it");
+                    value = $("#" + playLetterDropID[0]).attr("value");
+                    hw = getWords(playLetterDropID[0], value); //getting horizonal words
+                    vw = getWords(playLetterDropID[0], value, false); //getting vertical words
+                    vwCurrentScore = 0;
+                    hwCurrentScore = 0;
+                    
+                    let index;
+                    for (let i = 0 ; i < vw.length; i++){
+                        index = parseInt(vw.charCodeAt(i) - 65);
+                        vwCurrentScore += parseInt(json.value[index].value);
+                    }
+                    console.log("score before premium " +  vwCurrentScore);
+
+                    for (let i = 0 ; i < playLetterDropID.length; i++){ 
+                        //for vertical
+                        value = $("#" + playLetterDropID[i]).attr("value");
+                        hw = getWords(playLetterDropID[i], value); //getting vertical word
+                        let start = (hw.length === 1)? 1 : 0;
+                        for (let j = start; j < hw.length; j++){ //getting all the vertical score. it the vertical has only one letter, do nothing
+                            let hIndex = parseInt(hw.charCodeAt(j)) - 65;
+                            hwCurrentScore += parseInt(json.value[hIndex].value);
+                        }
+                        
+                        cls = $("#" + playLetterDropID[i]).attr("class").slice(9, 11); //search for dl, tl, dw, or tw class for premium words
+                        index = parseInt(value.charCodeAt(0) - 65);
+                        if (cls === "dl"){ //apply premium word or letter to both vertical and horizonal at the same time
+                            vwCurrentScore += parseInt(json.value[index].value); //because we alreay add the value of the letter once, so we need to add one more time since "dl"
+                            if (start === 0) { hwCurrentScore += parseInt(json.value[index].value);} //if it start from 0, it means it has more than 1 letters
+                        }else if(cls === "tl"){
+                            vwCurrentScore += (parseInt(json.value[index].value) * 2);  
+                            if (start === 0) { hwCurrentScore += parseInt(json.value[index].value) * 2;}
+                        }else if (cls === "dw"){
+                            multiply *= 2;   //because we can to make sure that we muliply only after every is tally correctly like dl and tl
+                            if (start === 0) { hwCurrentScore *= 2;}
+                        }else if (cls === "tw"){
+                            multiply *= 3; 
+                            if (start === 0) { hwCurrentScore *= 3;}
+                        }
+                        
+                        totalHwCurrentScore += hwCurrentScore;
+                        hwCurrentScore = 0;
+                    }
+                    alert("vw after score is " + vwCurrentScore * multiply);
+                    alert("hw score is " + totalHwCurrentScore);
+                    
+                    totalCurrentScore = totalHwCurrentScore + (vwCurrentScore * multiply);
+                    multiply = 1;
                 }   
             }
             alert("total is " + totalCurrentScore);
