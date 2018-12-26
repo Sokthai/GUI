@@ -9,6 +9,7 @@ so, there are 3 missing features to fully complete this game.
 one is the dictionary checking, scoring and put more player (up to 4) to correctly and completely 
 finish this game. I will finish this game after all my final exams.
 
+Github: https://sokthai.github.io/gui/
 Thank you
 Sokthai Tang
 Dec/19/18

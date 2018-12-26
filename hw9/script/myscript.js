@@ -92,8 +92,8 @@ $(document).ready(function () {
             let letter = (json.pieces[randomIndex].letter).toUpperCase();
             let valueIndex = (letter === "_") ? 26 : parseInt(letter.charCodeAt(0)) - 65;
             let obj = { //save the letter and its value
-                "letter": letter,
-                "value": json.value[valueIndex].value
+                "letter": letter
+                //"value": json.value[valueIndex].value
             };
             json.pieces[randomIndex].quantity--; //minus one after take one letter from the bag 
 
@@ -107,6 +107,7 @@ $(document).ready(function () {
         // console.log(letters);
         // console.log(json.pieces);
         // console.log(availableLetter);
+        $("#availableLetter").text(availableLetter);
 
     }
     generateLetter(); //generate the 7 tiles letters
@@ -166,74 +167,279 @@ $(document).ready(function () {
             tiles.attr("id", "tile" + uniqueNum);
             tileID.push("tile" + uniqueNum);
             uniqueNum++;
-
+            $(id).attr("value", letters[i].letter);
             $(tiles).appendTo(id).draggable({ //https://jqueryui.com/draggable/
                 snap: ".snap",
                 snapMode: "inner",
                 revert: function (event, ui) {
+
                     if (putBack) {
+                        console.log("from ? " + dropoutFromRackID);
+                        if (dropoutFromRackID) { //when drop back from rack to rack
+                            // if (dropBackToRack) { //if undefine , mean ok to drop back to rack 
+                            //     letters.push({
+                            //         "letter": $(this).attr("value")
+                            //     });
+                            //     let v = $(this).attr("id");
+                            //     playedLetter.splice(playedLetter.indexOf(v), 1);
+                            //     alert("drop back to rack is ok");
+                            //     return false; // no revert 
+                            // }
+                            // alert("nothing");
+                            if (dropBackToRackID === undefined) { //revert back when occupied
+                                $("#" + rackToRack).attr("value", $(this).attr("value"));
+                                return true;
+                            } else {
+                                $("#" + dropBackToRackID).attr("value", $(this).attr("value"));
+                            }
+                        } else { //when drop from board to rack
+                            if (dropBackToRackID !== undefined) { //if defind, mean that slot id is the open slot
+                                letters.push({
+                                    "letter": $(this).attr("value")
+                                });
+                                let v = $(this).attr("id");
+                                playedLetter.splice(playedLetter.indexOf(v), 1);
+                                $("#" + dropBackToRackID).attr("value", $(this).attr("value"));
+                            } else {
+                                $("#" + originalDropOutID).attr("value", originalValue);
+                                return true;
+                            }
+                        }
+                        dropoutFromRackID = false;
+                        putBack = false;
                         return false; //allow to put back to stand
                     }
+                    //----------------------------------
                     if (gameStart) { //game start after the star grid is occupied
+
                         if (firstTile) {
+
                             firstTile = false;
                             $(this).draggable("disable");
-                            playedLetter.push($(this).attr("id"));
+                            removeTileFromLetter($(this).attr("value"));
+                            playedLetter.push($(this).attr("id")); //id of the placed-letters like "tile7" etc
+                            playLetterDropID.push(originalId); //id of the drop grid like "h7" etc
+                            $("#" + originalId).attr("value", $(this).attr("value"));
                             return false; //first tile always put in the center/star tile
                         } else {
                             if (revert) { //if the grid already occupied, revert it
+                                $("#" + dropBackToRackID).attr("value", $(this).attr("value"));
                                 revert = false;
                                 return true;
-                            } 
+                            }
                             if (adjacentTile) {
-                                playedLetter.push($(this).attr("id"));
+
+                                let direction = originalId;
+                                if (playLetterDropID.length === 0) { //if no element in array, put wherever you want
+                                    playedLetter.push($(this).attr("id"));
+                                    removeTileFromLetter($(this).attr("value"));
+                                    playLetterDropID.push(originalId);
+                                    $("#" + originalId).attr("value", $(this).attr("value"));
+                                    
+                                    // setupTile($(this).attr("id"));
+
+                                } else if (playLetterDropID.length === 1) { //determine the direction of the tile after the first tile is placed (either row or column)
+                                    if (playedLetter.indexOf($(this).attr("id")) > -1) { // if the same tile. just update the palyletterDropID
+                                        let index = playLetterDropID.indexOf(originalDropOutID);
+                                        playLetterDropID[index] = originalId;
+                                        $("#" + originalId).attr("value", $(this).attr("value"));
+                                    } else {
+                                        if (playLetterDropID[0].slice(0, 1) === direction.slice(0, 1) || //check row(horizonal)
+                                            playLetterDropID[0].slice(1, 2) === direction.slice(1, 2)) { //check column(verticle)
+                                            playedLetter.push($(this).attr("id"));
+                                            removeTileFromLetter($(this).attr("value"));
+                                            playLetterDropID.push(originalId);
+                                            $("#" + originalId).attr("value", $(this).attr("value"));
+                                            
+                                            // setupTile($(this).attr("id"));
+                                        } else {
+                                            alert("Alert need to be in straight line with no space between Please");
+                                            $("#" + originalDropOutID).attr("value", $(this).attr("value"));
+                                            return true;
+                                        }
+                                    }
+
+
+                                } else { //after the direction is determined 3 or more tiles
+                                    if (playLetterDropID.indexOf(originalDropOutID) > -1) { // if the same
+                                        if (playLetterDropID.length === 2) {
+                                            if (playLetterDropID[0].slice(0, 1) === direction.slice(0, 1)) { //if good horizonal , update it
+                                                let index = playLetterDropID.indexOf(originalDropOutID);
+                                                playLetterDropID[index] = originalId;
+                                                $("#" + originalId).attr("value", $(this).attr("value"));  
+                                            } else if (playLetterDropID[0].slice(1) === direction.slice(1)) { //if good vertical , update it
+                                                let index = playLetterDropID.indexOf(originalDropOutID);
+                                                playLetterDropID[index] = originalId;
+                                                $("#" + originalId).attr("value", $(this).attr("value"));
+                        
+                                            } else {
+                                                alert("please play in straight line only nigger!!!");
+                                                $("#" + originalDropOutID).attr("value", $(this).attr("value"));
+                                                return true;
+                                            }
+                                        } else {
+                                            
+                                            horizonal = (playLetterDropID[0].slice(0, 1) === playLetterDropID[1].slice(0, 1)) ? true : false;
+                                            if (horizonal) {
+                                                if (playLetterDropID[0].slice(0, 1) === direction.slice(0, 1)) {
+                                                    let index = playLetterDropID.indexOf(originalDropOutID);
+                                                    playLetterDropID[index] = originalId;
+                                                    $("#" + originalId).attr("value", $(this).attr("value"));
+                                                    console.log("same tile horizonal " + originalId);
+                                                    console.log(playLetterDropID);
+                                                } else {
+                                                    alert("Please play in horizonal line only homie");
+                                                    $("#" + originalDropOutID).attr("value", $(this).attr("value"));
+                                                    return true;
+                                                }
+                                            } else {
+                                                if (playLetterDropID[0].slice(1) === direction.slice(1)) { //compare if vertical = true start from index 1 to the end. some id has 1 , some has 2 digit after letter
+                                                    let index = playLetterDropID.indexOf(originalDropOutID);
+                                                    playLetterDropID[index] = originalId;
+                                                    $("#" + originalId).attr("value", $(this).attr("value"));
+                                                    console.log("same tile vertical " + originalId);
+                                                    console.log(playLetterDropID);
+                                                }else{
+                                                    alert("please play in vertical line only homeboy");
+                                                    $("#" + originalDropOutID).attr("value", $(this).attr("value"));
+                                                    return true;
+                                                }
+                                            }
+                                        }
+                                    } else { //if new tile
+
+
+
+                                        horizonal = (playLetterDropID[0].slice(0, 1) === playLetterDropID[1].slice(0, 1)) ? true : false;
+                                        if (horizonal) {
+                                            
+                                            if (playLetterDropID[0].slice(0, 1) === direction.slice(0, 1)) {
+                                                playedLetter.push($(this).attr("id"));
+                                                removeTileFromLetter($(this).attr("value"));
+                                                playLetterDropID.push(originalId);
+                                                $("#" + originalId).attr("value", $(this).attr("value"));
+                                                // setupTile($(this).attr("id"));
+                                            } else {
+                                                alert("please play in straight line (horizonal)only nigger");
+                                                $("#" + originalDropOutID).attr("value", $(this).attr("value"));
+
+                                                return true;
+                                            }
+                                        } else { //if vertical
+                                            console.log("vertical");
+                                            if (playLetterDropID[0].slice(1) === direction.slice(1)) { //compare if vertical = true start from index 1 to the end. some id has 1 , some has 2 digit after letter
+                                                playedLetter.push($(this).attr("id"));
+                                                removeTileFromLetter($(this).attr("value"));
+                                                playLetterDropID.push(originalId);
+                                                $("#" + originalId).attr("value", $(this).attr("value"));
+                                            } else {
+                                                alert("please play in straight line (vertical) only nigger");
+                                                $("#" + originalDropOutID).attr("value", $(this).attr("value"));
+                                                return true;
+                                            }
+                                            // setupTile($(this).attr("id"));
+                                        }
+                                    }
+                                    
+        
+                                }
+                                
                                 return false; // no revert
                             } else {
                                 $("#" + originalId).removeAttr("value");
                                 $("#" + originalDropOutID).attr("value", originalValue);
-                                letters.push(objValue); //when reverted, we put object back to letter[]
-                                alert("need to be in straight line . revert first 1");
-                                $("#play").attr("disabled", "disabled");
+                                // letters.push(objValue); //when reverted, we put object back to letter[]
+                                alert("need to be in straight line with no space");
+                                // $("#play").attr("disabled", "disabled");
+                                $("#" + dropBackToRackID).attr("value", $(this).attr("value"));
                                 return true; //revert
                             }
                         }
                     } else {
+                        $("#" + dropBackToRackID).attr("value", $(this).attr("value"));
                         alert("Please start the game from the star tile ");
 
                         return true; //revert
                     }
+
                 },
                 drag: function () {
-                    draggableId = $(this).attr("id"); // we need this to remove the value when player change the location of the tile
-                    value = $(this).attr("value"); //save current value when play drop to droppable
-
-
+                    //draggableId = $(this).attr("id"); // we need this to remove the value when player change the location of the tile
+                    // value = $(this).attr("value"); //save current value when play drop to droppable
                 }
 
             });
+
         }
+    }
+
+    function setupTile(id) {
+
+        if (playedLetter.indexOf(id) === -1) { //if not the same tile
+            playedLetter.push(id);
+            removeTileFromLetter($("#" + id).attr("value"));
+            playLetterDropID.push(originalId);
+        }
+
+        $("#" + originalId).attr("value", $("#" + id).attr("value"));
+
+
+        // if (playedLetter.indexOf($(this).attr("id")) === -1) { //if not the same tile
+        //     playedLetter.push($(this).attr("id"));
+        //     removeTileFromLetter($(this).attr("value"));
+        // }
+        // playLetterDropID.push(originalId);
+        // $("#" + originalId).attr("value", $(this).attr("value"));
+    }
+
+    function removeTileFromLetter(value) {
+        let sindex; //find index of the drop letter and remove it
+        for (let i = 0; i < letters.length; i++) {
+            if (value === letters[i].letter) {
+                // objValue = letters[i]; //save the remove elemet in case it reverted 
+                sindex = i;
+                break;
+            }
+        }
+        letters.splice(sindex, 1);
     }
 
 
     $("#play").click(function () {
-        console.log(playedLetter);
+        // console.log(playedLetter);
+        // console.log(gameStart);
+        // console.log(letters);
+        
         if (!gameStart || playedLetter.length <= 0) {
             alert("Please place letter on the board to play");
         } else {
-            multiplier = (multiplier === 0) ? 1 : multiplier;
-            let currentScore = parseInt($("#score").text()) + totalPlayScore * multiplier;
+            let currentScore = parseInt($("#score").text()) + ns.calculatePlayScore();
             $("#score").text(currentScore);
             for (let i = 0; i < playedLetter.length; i++) {
                 $("#" + playedLetter[i]).draggable("disable");
             }
             //$("#swap").prop("disabled", false);
-            swap();
+            // swap();
+            replenishRack();
         }
+        
+        playLetterDropID.length = 0; // clear the id letters array
+        
     });
 
-    function swap() { //when user want to change the their letter with the bag letter
-        // console.log("remain in letter array");
-        // console.log(letters);
+
+    function replenishRack(){
+        $("#availableLetter").text(availableLetter);
+        generateLetter();
+        reRackLetter();
+        // $(this).prop("disabled", true);
+    }
+
+
+
+    function swap() { //when user want to change the their letter with the bag letter, clear all the current letters on rack and get all new 7 tiles
+        console.log("remain in letter array");
+        console.log(letters);
         for (let i = 0; i < letters.length; i++) {
             let l = letters[i].letter;
             let index = getLetterPosition(l); //calculate the index of json
@@ -249,13 +455,11 @@ $(document).ready(function () {
             }
             availableLetter++;
         }
-
-
         letters.length = 0; //clear letter array
         $("#availableLetter").text(availableLetter);
         generateLetter();
         reRackLetter();
-        $(this).prop("disabled", true);
+        // $(this).prop("disabled", true);
     }
 
 
