@@ -419,14 +419,25 @@ $(document).ready(function () {
                 $("#" + playedLetter[i]).draggable("disable");
             }
             //$("#swap").prop("disabled", false);
-            swap();
+            // swap();
+            replenishRack();
         }
         
         playLetterDropID.length = 0; // clear the id letters array
         
     });
 
-    function swap() { //when user want to change the their letter with the bag letter
+
+    function replenishRack(){
+        $("#availableLetter").text(availableLetter);
+        generateLetter();
+        reRackLetter();
+        // $(this).prop("disabled", true);
+    }
+
+
+
+    function swap() { //when user want to change the their letter with the bag letter, clear all the current letters on rack and get all new 7 tiles
         console.log("remain in letter array");
         console.log(letters);
         for (let i = 0; i < letters.length; i++) {
@@ -444,13 +455,11 @@ $(document).ready(function () {
             }
             availableLetter++;
         }
-
-
         letters.length = 0; //clear letter array
         $("#availableLetter").text(availableLetter);
         generateLetter();
         reRackLetter();
-        $(this).prop("disabled", true);
+        // $(this).prop("disabled", true);
     }
 
 

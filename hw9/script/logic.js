@@ -383,7 +383,7 @@ let namespace;
                     multiply = 1;
 
                 }else{ //if vertical 
-                    alert("vertical working on it");
+                    // alert("vertical working on it");
                     value = $("#" + playLetterDropID[0]).attr("value");
                     hw = getWords(playLetterDropID[0], value); //getting horizonal words
                     vw = getWords(playLetterDropID[0], value, false); //getting vertical words

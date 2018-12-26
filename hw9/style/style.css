@@ -171,7 +171,6 @@ tr{
     position: absolute;
     top: 0px;
     margin-left: 20px;
-   /* background-image: url("../images/2.jpg"); */
     background-size: cover;
 }
 
@@ -191,6 +190,12 @@ tr{
     /* border: 1px solid lawngreen; */
 }
 
+.ui-draggable-disabled{
+    cursor: default;
+    /* outline: red solid 1px;  */
+    border-left: 2px solid red;
+    opacity: .9;
+}
 
 
 /* set images for scrabble board */
