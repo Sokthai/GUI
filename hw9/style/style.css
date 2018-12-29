@@ -7,8 +7,8 @@ body{
     /* background-size: cover; */
     
     min-width: 700px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;}
 
 
 
@@ -58,13 +58,14 @@ tr{
     height: 571px;
     
 }
-#rack{
+.rack{
     /* border: 2px solid purple; */
     position: absolute;
     width: 420px;
     height: 60px;
     background-image: url("../images/rack.png");
     background-size: 100% 100%;
+    bottom: 40px;
 }
 
 #stand{
@@ -91,21 +92,26 @@ tr{
     position: relative;
 }
 
-#swap{
+#swap1{
     left: 20px;
 }
 
-#swap:disabled{
+#swap2{
+    left: 20px;
+}
+
+.swap:disabled{
     color: gray;
     background-image: url("../images/disableButton.png");
 }
 
-#swap:disabled:hover{
+.swap:disabled:hover{
     box-shadow: none;
+    cursor: default;
 
 }
 
-#play{  
+.play{  
     left: 100px;
 }
 
@@ -123,6 +129,7 @@ tr{
     cursor: pointer;
     border-radius: 4px;
     width: 70px;
+    /* left: 20px; */
     
 }
 
@@ -130,24 +137,31 @@ tr{
     box-shadow: 2px 2px 5px gray;
 }
 
-#player{
-    position: absolute;
-    /* border: 1px solid blue; */
-    width: 430px;
-    height: 100px;
+#player1{
     top: 80px;
-    margin-left: 80px;
+}
+
+
+#player2{
+    top: 250px;
+}
+
+.player{
+    position: absolute;
+    border: 1px solid blue;
+    width: 430px;
+    height: 130px;
     
+    margin-left: 80px;
 }
 
 .scoreBoard{
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: bold;
-    margin-left : 80px;
+ 
+    /* margin-left : 80px; */
     position: absolute;
-    height: 60px;
+    /* height: 60px; */
     width: 430px;
-    top: 10px;
+    /* top: 10px; */
     /* border: 1px solid green; */
     
     
