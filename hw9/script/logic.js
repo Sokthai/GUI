@@ -75,8 +75,8 @@ $(function () {
                     letterBag = (player === 1)? letters : letters2;
                     changeBlankTile(ui.draggable.attr("id"), letterBag); 
                     namespace.checkDictoinary(id, value); //checking valid words from dictionary
-                    console.log("after is done");
-                    console.log(letters);
+                    // console.log("after is done");
+                    // console.log(letters);
                 }
 
             }
@@ -278,7 +278,9 @@ let namespace;
         }
     };
     window.ns = namespace; //make namespace to window level, so it can access by another external file with variable "ns"
-     function tallyScore( vertical = true){ //this function will calculate the words horizonally or vertically
+    
+    
+    function tallyScore( vertical = true){ //this function will calculate the words horizonally or vertically
         let score1 = 0;
         let score2 = 0;
         let totalCurrentScore = 0;
@@ -342,8 +344,8 @@ let namespace;
             playedWords = words + " " + playedWords;
         }
 
-        alert("score1 after score is " + score1 * multiply);
-        alert("score2 score is " + totalScore2);
+        // alert("score1 after score is " + score1 * multiply);
+        // alert("score2 score is " + totalScore2);
         totalCurrentScore = totalScore2 + (score1 * multiply);
         return totalCurrentScore;
      } 
