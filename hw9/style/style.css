@@ -151,9 +151,21 @@ tr{
     border: 1px solid blue;
     width: 430px;
     height: 130px;
-    
+    margin-left: 80px;
+    z-index: auto;
+}
+
+div#cover{
+    position: absolute;
+    width: 430px;
+    height: 130px;
+    border: 1px solid red;
+    /* background-color: yellowgreen; */
+    top: 250px;
+    z-index: 1;
     margin-left: 80px;
 }
+
 
 .scoreBoard{
  
@@ -210,6 +222,9 @@ tr{
     border-left: 2px solid red;
     opacity: .9;
 }
+
+
+
 
 
 /* set images for scrabble board */
