@@ -27,19 +27,15 @@
 
 <body>
     <div id="scrabble">
-        <div id="table">
-         
-        </div>
+        <div id="table"></div>
 
         <div id="playerBoard">
-            <div class="scoreBoard">
-                <p>CURRENT SCORE: <span id="score">0</span></p>
-                <p>AVALIABLE LETTERS: <span id="availableLetter"></span></p>
-
-            </div>
-
-            <div id="player">
-                <div id="rack">
+            <p style="text-align : center">AVALIABLE LETTERS: <span id="availableLetter"></span></p>
+            <div id="player1" class="player">
+                <div class="scoreBoard">
+                    <p>PLAYER 1 SCORE: <span id="score">0</span></p>
+                </div>
+                <div class="rack">
                     <!-- player one-->
                     <!-- <div id="stand"> -->
                     <table class="standTable">
@@ -55,12 +51,38 @@
                     </table>
                     <!-- </div> -->
                 </div>
-                <button id="swap" class="button" disabled>Swap</button>
-                <button id="play" class="button">Play</button>
+                <button id="swap1" class="button swap" disabled>Swap</button>
+                <button id="play1" class="button play">Play1</button>
+
+            </div>
+
+
+
+            <div id="player2" class="player">
+                <div class="scoreBoard">
+                    <p>PLAYER 2 SCORE: <span id="score2">0</span></p>
+                </div>
+                <div class="rack">
+                    <table class="standTable">
+                        <tr>
+                            <td id="h" class="snapRack letterStand"></td>
+                            <td id="i" class="snapRack letterStand"></td>
+                            <td id="j" class="snapRack letterStand"></td>
+                            <td id="k" class="snapRack letterStand"></td>
+                            <td id="l" class="snapRack letterStand"></td>
+                            <td id="m" class="snapRack letterStand"></td>
+                            <td id="n" class="snapRack letterStand"></td>
+                        </tr>
+                    </table>
+                </div>
+                <button id="swap2" class="button swap" disabled>Swap</button>
+                <button id="play2" class="button play" disabled>Play2</button>
                 
+
+
             </div>
         </div>
-        
+
     </div>
 </body>
 

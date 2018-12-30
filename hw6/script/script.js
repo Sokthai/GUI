@@ -6,7 +6,7 @@ function generateTable(){
     let vs = document.getElementById("v1").value;
     let ve = document.getElementById("v2").value;
 
-    var tblid = document.getElementById("gtable");  //create table
+    var tblid = document.getElementById("gtable");  
     if (tblid) tblid.parentNode.removeChild(tblid);
     if (validation(hs, he, vs, ve) == false){
         return; // if false validation , return 

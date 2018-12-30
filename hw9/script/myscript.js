@@ -86,6 +86,7 @@ $(document).ready(function () {
 
     function generateLetter() { //generate 7 letter and save to a array of objects
         let p = (availableLetter >= (7 - letters.length)) ? 7 : letters.length + availableLetter; //if there are only 2, for example, in the bag while play need 5, give player only those last two
+        
         for (let i = letters.length; i < p; i++) {
 
             let randomIndex = getRandomIndex();
@@ -110,11 +111,14 @@ $(document).ready(function () {
         $("#availableLetter").text(availableLetter);
 
     }
+    //player2
     generateLetter(); //generate the 7 tiles letters
     reRackLetter(); //put that 7 tiles letters on the rack
+    //player2
+    generateLetter(); //generate the 7 tiles letters
+    // reRackLetter(7); //put that 7 tiles letters on the rack
 
-
-    function reRackLetter() { //put the "7" letters in the array on the rack
+    function reRackLetter(player = 0) { //put the "7" letters in the array on the rack
         // $(".standTable").remove();
         // let table = $("<table>").addClass("standTable");
         // let tbody = $("<tbody>");
@@ -137,12 +141,8 @@ $(document).ready(function () {
         for (let i = 0; i < tileID.length; i++) { //remvoe the tiles that is not played before get new tiles
             let id = tileID[i];
             exist = false;
-            // console.log("in " + id);
             for (let j = 0; j < playedLetter.length; j++) {
-                // console.log(playedLetter[j] + " === " + id);
                 if (id === playedLetter[j]) {
-                    // console.log("ho no " + id);
-                    // playedLetter.pop();
                     exist = true;
                     break;
                 }
@@ -160,8 +160,7 @@ $(document).ready(function () {
         for (let i = 0; i < letters.length; i++) { //the 7 tiles
             let image = "url('images/" + letters[i].letter + ".jpg')";
             let tiles = $("<div>").addClass("tiles");
-
-            let id = "#" + getLetter(i);
+            let id = "#" + getLetter(i + player);
             tiles.css("background-image", image);
             tiles.attr("value", letters[i].letter);
             tiles.attr("id", "tile" + uniqueNum);
@@ -176,16 +175,6 @@ $(document).ready(function () {
                     if (putBack) {
                         console.log("from ? " + dropoutFromRackID);
                         if (dropoutFromRackID) { //when drop back from rack to rack
-                            // if (dropBackToRack) { //if undefine , mean ok to drop back to rack 
-                            //     letters.push({
-                            //         "letter": $(this).attr("value")
-                            //     });
-                            //     let v = $(this).attr("id");
-                            //     playedLetter.splice(playedLetter.indexOf(v), 1);
-                            //     alert("drop back to rack is ok");
-                            //     return false; // no revert 
-                            // }
-                            // alert("nothing");
                             if (dropBackToRackID === undefined) { //revert back when occupied
                                 $("#" + rackToRack).attr("value", $(this).attr("value"));
                                 return true;
@@ -211,15 +200,14 @@ $(document).ready(function () {
                     }
                     //----------------------------------
                     if (gameStart) { //game start after the star grid is occupied
-
                         if (firstTile) {
 
                             firstTile = false;
                             $(this).draggable("disable");
-                            removeTileFromLetter($(this).attr("value"));
-                            playedLetter.push($(this).attr("id")); //id of the placed-letters like "tile7" etc
-                            playLetterDropID.push(originalId); //id of the drop grid like "h7" etc
-                            $("#" + originalId).attr("value", $(this).attr("value"));
+ 
+                            addTile($(this).attr("id"), $(this).attr("value"));
+                            console.log(letters);
+
                             return false; //first tile always put in the center/star tile
                         } else {
                             if (revert) { //if the grid already occupied, revert it
@@ -231,27 +219,28 @@ $(document).ready(function () {
 
                                 let direction = originalId;
                                 if (playLetterDropID.length === 0) { //if no element in array, put wherever you want
-                                    playedLetter.push($(this).attr("id"));
-                                    removeTileFromLetter($(this).attr("value"));
-                                    playLetterDropID.push(originalId);
-                                    $("#" + originalId).attr("value", $(this).attr("value"));
-                                    
-                                    // setupTile($(this).attr("id"));
+
+                                   addTile($(this).attr("id"), $(this).attr("value"));
 
                                 } else if (playLetterDropID.length === 1) { //determine the direction of the tile after the first tile is placed (either row or column)
                                     if (playedLetter.indexOf($(this).attr("id")) > -1) { // if the same tile. just update the palyletterDropID
+                                        if (checkSpaceBetween(playLetterDropID[0], originalId)){
+                                            return true;
+                                        }
                                         let index = playLetterDropID.indexOf(originalDropOutID);
                                         playLetterDropID[index] = originalId;
                                         $("#" + originalId).attr("value", $(this).attr("value"));
                                     } else {
                                         if (playLetterDropID[0].slice(0, 1) === direction.slice(0, 1) || //check row(horizonal)
-                                            playLetterDropID[0].slice(1, 2) === direction.slice(1, 2)) { //check column(verticle)
-                                            playedLetter.push($(this).attr("id"));
-                                            removeTileFromLetter($(this).attr("value"));
-                                            playLetterDropID.push(originalId);
-                                            $("#" + originalId).attr("value", $(this).attr("value"));
+                                            playLetterDropID[0].slice(1) === direction.slice(1)) { //check column(verticle)
+               
+                                            if (checkSpaceBetween(playLetterDropID[0], originalId)){
+                                                return true;
+                                            }
+                                            addTile($(this).attr("id"), $(this).attr("value"));
+
                                             
-                                            // setupTile($(this).attr("id"));
+                                            // updateOldTile($(this).attr("id"));
                                         } else {
                                             alert("Alert need to be in straight line with no space between Please");
                                             $("#" + originalDropOutID).attr("value", $(this).attr("value"));
@@ -263,15 +252,17 @@ $(document).ready(function () {
                                 } else { //after the direction is determined 3 or more tiles
                                     if (playLetterDropID.indexOf(originalDropOutID) > -1) { // if the same
                                         if (playLetterDropID.length === 2) {
-                                            if (playLetterDropID[0].slice(0, 1) === direction.slice(0, 1)) { //if good horizonal , update it
-                                                let index = playLetterDropID.indexOf(originalDropOutID);
-                                                playLetterDropID[index] = originalId;
-                                                $("#" + originalId).attr("value", $(this).attr("value"));  
-                                            } else if (playLetterDropID[0].slice(1) === direction.slice(1)) { //if good vertical , update it
-                                                let index = playLetterDropID.indexOf(originalDropOutID);
-                                                playLetterDropID[index] = originalId;
-                                                $("#" + originalId).attr("value", $(this).attr("value"));
-                        
+
+                                            
+                                            if (playLetterDropID[0].slice(0, 1) === direction.slice(0, 1) || 
+                                                playLetterDropID[0].slice(1) === direction.slice(1)){ //if good horizonal or vertical, update it
+                 
+                                                if (checkSpaceBetween(playLetterDropID[0], originalId)){
+                                                    return true;
+                                                }
+                                                updateTile($(this).attr("value"));
+
+
                                             } else {
                                                 alert("please play in straight line only nigger!!!");
                                                 $("#" + originalDropOutID).attr("value", $(this).attr("value"));
@@ -281,29 +272,20 @@ $(document).ready(function () {
                                             
                                             horizonal = (playLetterDropID[0].slice(0, 1) === playLetterDropID[1].slice(0, 1)) ? true : false;
                                             if (horizonal) {
-                                                if (playLetterDropID[0].slice(0, 1) === direction.slice(0, 1)) {
-                                                    let index = playLetterDropID.indexOf(originalDropOutID);
-                                                    playLetterDropID[index] = originalId;
-                                                    $("#" + originalId).attr("value", $(this).attr("value"));
-                                                    console.log("same tile horizonal " + originalId);
-                                                    console.log(playLetterDropID);
-                                                } else {
-                                                    alert("Please play in horizonal line only homie");
-                                                    $("#" + originalDropOutID).attr("value", $(this).attr("value"));
+                    
+                                                if (checkSpaceBetween(playLetterDropID[0], originalId)){
                                                     return true;
                                                 }
+                                                let msg = "Please play in horizonal straight line only homie NEW";
+                                                return updateOldTile(playLetterDropID[0].slice(0, 1), direction.slice(0, 1), msg, $(this).attr("value"));
                                             } else {
-                                                if (playLetterDropID[0].slice(1) === direction.slice(1)) { //compare if vertical = true start from index 1 to the end. some id has 1 , some has 2 digit after letter
-                                                    let index = playLetterDropID.indexOf(originalDropOutID);
-                                                    playLetterDropID[index] = originalId;
-                                                    $("#" + originalId).attr("value", $(this).attr("value"));
-                                                    console.log("same tile vertical " + originalId);
-                                                    console.log(playLetterDropID);
-                                                }else{
-                                                    alert("please play in vertical line only homeboy");
-                                                    $("#" + originalDropOutID).attr("value", $(this).attr("value"));
+            
+                                                if (checkSpaceBetween(playLetterDropID[0], originalId)){
                                                     return true;
                                                 }
+                                                let msg = "please play in vertical line only NEW";
+                                                return updateOldTile(playLetterDropID[0].slice(1), direction.slice(1), msg, $(this).attr("value"));
+                                            
                                             }
                                         }
                                     } else { //if new tile
@@ -313,31 +295,29 @@ $(document).ready(function () {
                                         horizonal = (playLetterDropID[0].slice(0, 1) === playLetterDropID[1].slice(0, 1)) ? true : false;
                                         if (horizonal) {
                                             
-                                            if (playLetterDropID[0].slice(0, 1) === direction.slice(0, 1)) {
-                                                playedLetter.push($(this).attr("id"));
-                                                removeTileFromLetter($(this).attr("value"));
-                                                playLetterDropID.push(originalId);
-                                                $("#" + originalId).attr("value", $(this).attr("value"));
-                                                // setupTile($(this).attr("id"));
-                                            } else {
-                                                alert("please play in straight line (horizonal)only nigger");
-                                                $("#" + originalDropOutID).attr("value", $(this).attr("value"));
+            
+                                           
+                                            let msg = "please play in straight line (horizonal)only NEW";
+                                            if (newTile(playLetterDropID[0].slice(0, 1), direction.slice(0, 1), msg, 
+                                                $(this).attr("id"), $(this).attr("value")) === true){
+                                                return true;
+                                            }
 
+                                            if (checkSpaceBetween(playLetterDropID[0], originalId)){
                                                 return true;
                                             }
                                         } else { //if vertical
-                                            console.log("vertical");
-                                            if (playLetterDropID[0].slice(1) === direction.slice(1)) { //compare if vertical = true start from index 1 to the end. some id has 1 , some has 2 digit after letter
-                                                playedLetter.push($(this).attr("id"));
-                                                removeTileFromLetter($(this).attr("value"));
-                                                playLetterDropID.push(originalId);
-                                                $("#" + originalId).attr("value", $(this).attr("value"));
-                                            } else {
-                                                alert("please play in straight line (vertical) only nigger");
-                                                $("#" + originalDropOutID).attr("value", $(this).attr("value"));
+                
+                                           
+                                            let msg = "please play in straight line (vertical) only nigger NEW";
+                                            if (newTile(playLetterDropID[0].slice(1), direction.slice(1), msg, $(this).attr("id"), $(this).attr("value")) === true){
                                                 return true;
                                             }
-                                            // setupTile($(this).attr("id"));
+
+                                            if (checkSpaceBetween(playLetterDropID[0], originalId)){
+                                                return true;
+                                            }
+                                            
                                         }
                                     }
                                     
@@ -373,24 +353,68 @@ $(document).ready(function () {
         }
     }
 
-    function setupTile(id) {
+    function checkSpaceBetween(firstID, lastID){ //check if there is space between tile, if space is found , revert it
+        let id;
+        if (firstID.charCodeAt(0) === lastID.charCodeAt(0)) { //horizonal
+            id = lastID.slice(0, 1);
+            if (parseInt(firstID.slice(1)) < parseInt(lastID.slice(1))) { //if first is at the left side (smaller)
+                id += parseInt(lastID.slice(1)) - 1;
+            } else {
+                id += parseInt(lastID.slice(1)) + 1;
+            }
 
-        if (playedLetter.indexOf(id) === -1) { //if not the same tile
-            playedLetter.push(id);
-            removeTileFromLetter($("#" + id).attr("value"));
-            playLetterDropID.push(originalId);
+        } else { //vertical   
+            if (firstID.slice(0, 1) < lastID.slice(0, 1)) {
+                id = (lastID.slice(0, 1).charCodeAt(0)) - 1; // if first is at the top (smaller)            
+            } else {
+                id = (lastID.slice(0, 1).charCodeAt(0)) + 1;
+            }
+            id = String.fromCharCode(id) + lastID.slice(1);
         }
 
-        $("#" + originalId).attr("value", $("#" + id).attr("value"));
-
-
-        // if (playedLetter.indexOf($(this).attr("id")) === -1) { //if not the same tile
-        //     playedLetter.push($(this).attr("id"));
-        //     removeTileFromLetter($(this).attr("value"));
-        // }
-        // playLetterDropID.push(originalId);
-        // $("#" + originalId).attr("value", $(this).attr("value"));
+        if ($("#" + id).attr("value") === undefined) {
+            alert("no space between");
+            return true //revert if there is space
+        }
     }
+
+    function newTile(playLetter, direction, message, id, value){
+        if (playLetter === direction) {
+            addTile(id, value);
+        } else {
+            alert(message);
+            $("#" + originalDropOutID).attr("value", value);
+            return true;
+        }
+    }
+
+    function addTile(id, value) {
+        playedLetter.push(id);
+        letters.splice(ns.getIndexOf(value), 1);
+        // removeTileFromLetter(value);
+        playLetterDropID.push(originalId);
+        $("#" + originalId).attr("value", value);
+    }
+
+    function updateOldTile(playLetter, direction, message, value) {
+        if ((playLetter === direction)) {
+
+            updateTile(value);
+        } else {
+            alert(message);
+            $("#" + originalDropOutID).attr("value", value);
+            return true;
+        }
+
+    }
+
+
+    function updateTile(value){
+        let index = playLetterDropID.indexOf(originalDropOutID);
+        playLetterDropID[index] = originalId;
+        $("#" + originalId).attr("value", value);
+    }
+
 
     function removeTileFromLetter(value) {
         let sindex; //find index of the drop letter and remove it
@@ -404,12 +428,7 @@ $(document).ready(function () {
         letters.splice(sindex, 1);
     }
 
-
-    $("#play").click(function () {
-        // console.log(playedLetter);
-        // console.log(gameStart);
-        // console.log(letters);
-        
+    $("#play1").click(function () {
         if (!gameStart || playedLetter.length <= 0) {
             alert("Please place letter on the board to play");
         } else {
@@ -420,13 +439,19 @@ $(document).ready(function () {
             }
             //$("#swap").prop("disabled", false);
             // swap();
+
             replenishRack();
+            $(this).prop("disabled", true);
+            $("#play2").attr("disabled", false);
         }
-        
         playLetterDropID.length = 0; // clear the id letters array
-        
     });
 
+
+    $("#play2").click(function(){
+        $(this).prop("disabled", true);
+        $("#play2").attr("disabled", false);
+    });
 
     function replenishRack(){
         $("#availableLetter").text(availableLetter);
@@ -456,10 +481,7 @@ $(document).ready(function () {
             availableLetter++;
         }
         letters.length = 0; //clear letter array
-        $("#availableLetter").text(availableLetter);
-        generateLetter();
-        reRackLetter();
-        // $(this).prop("disabled", true);
+        replenishRack();
     }
 
 
