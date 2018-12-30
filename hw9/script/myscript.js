@@ -26,6 +26,7 @@ let json = (function () { //getting letters from json file and save to a variabl
 var letters = []; //The 7 letter tiles array for player 1
 var letters2 = []// The 7 letter tiles array for player 2
 var playedLetter = []; //save the rack tile index to remove its child when swapping
+var availableLetter = 100; //English scrabble of 100 letters
 
 $(document).ready(function () {
 
@@ -84,7 +85,6 @@ $(document).ready(function () {
     let tileID2 = [];   // (player2)this tileID2 is used to remove the tiles that are not used, so we can add tiles again (refresh)
     let uniqueNum = 0; //this uniqueNum is appended to the id of the tile for easy identify
 
-    var availableLetter = 100; //English scrabble of 100 letters
 
     function generateLetter(letterBag) { //generate 7 letter and save to a array of objects
         let p = (availableLetter >= (7 - letterBag.length)) ? 7 : letterBag.length + availableLetter; //if there are only 2, for example, in the bag while play need 5, give player only those last two
@@ -209,7 +209,7 @@ $(document).ready(function () {
                             firstTile = false;
                             $(this).draggable("disable");
  
-                            addTile($(this).attr("id"), $(this).attr("value"));
+                            addTile($(this).attr("id"), $(this).attr("value"), letterBag);
                             console.log(letterBag);
 
                             return false; //first tile always put in the center/star tile
@@ -224,7 +224,7 @@ $(document).ready(function () {
                                 let direction = originalId;
                                 if (playLetterDropID.length === 0) { //if no element in array, put wherever you want
 
-                                   addTile($(this).attr("id"), $(this).attr("value"));
+                                   addTile($(this).attr("id"), $(this).attr("value"), letterBag);
 
                                 } else if (playLetterDropID.length === 1) { //determine the direction of the tile after the first tile is placed (either row or column)
                                     if (playedLetter.indexOf($(this).attr("id")) > -1) { // if the same tile. just update the palyletterDropID
@@ -241,7 +241,7 @@ $(document).ready(function () {
                                             if (checkSpaceBetween(playLetterDropID[0], originalId)){
                                                 return true;
                                             }
-                                            addTile($(this).attr("id"), $(this).attr("value"));
+                                            addTile($(this).attr("id"), $(this).attr("value"), letterBag);
 
                                             
                                             // updateOldTile($(this).attr("id"));
@@ -394,8 +394,12 @@ $(document).ready(function () {
 
     function addTile(id, value, letterBag = letters) {
         playedLetter.push(id);
-        letterBag.splice(ns.getIndexOf(value), 1);
-        // removeTileFromLetter(value);
+        console.log("remove before");
+        console.log(letterBag);
+
+        letterBag.splice(ns.getIndexOf(value, letterBag), 1);
+        console.log("remove after");
+        console.log(letterBag);
         playLetterDropID.push(originalId);
         $("#" + originalId).attr("value", value);
     }
@@ -436,37 +440,33 @@ $(document).ready(function () {
         if (!gameStart || playedLetter.length <= 0) {
             alert("Please place letter on the board to play");
         } else {
-            let currentScore = parseInt($("#score").text()) + ns.calculatePlayScore();
-            $("#score").text(currentScore);
-            for (let i = 0; i < playedLetter.length; i++) {
-                $("#" + playedLetter[i]).draggable("disable");
-            }
-            //$("#swap").prop("disabled", false);
-            // swap();
-
+     
+            play("#score1", 2);
             replenishRack(letters);
             $(this).prop("disabled", true);
-            $("#play2").attr("disabled", false);
-            $("#cover").css("top", 80); //this div to cover the tiles, so they can not be moved when it turn is done
-            
         }
-        playLetterDropID.length = 0; // clear the id letters array
     });
 
 
     $("#play2").click(function () {
-        let currentScore = parseInt($("#score2").text()) + ns.calculatePlayScore();
-        $("#score2").text(currentScore);
+        play("#score2", 1, 250);
+        replenishRack(letters2, 7, tileID2);
+        $(this).prop("disabled", true);
+    });
+
+    function play(score, play, top = 80){
+        let currentScore = parseInt($(score).text()) + ns.calculatePlayScore();
+        $(score).text(currentScore);
         for (let i = 0; i < playedLetter.length; i++) {
             $("#" + playedLetter[i]).draggable("disable");
         }
-        replenishRack(letters2, 7, tileID2);
-        $(this).prop("disabled", true);
-        $("#play1").attr("disabled", false);
-        $("#cover").css("top", 250);
+        $("#play" + play).attr("disabled", false);
+        $("#cover").css("top", top); //this div to cover the tiles, so they can not be moved when it turn is done
+        player = play;
         playLetterDropID.length = 0; // clear the id letters array
+    }
 
-    });
+
 
     function replenishRack(letterBag, player = 0, tileIds = tileID){
         $("#availableLetter").text(availableLetter);

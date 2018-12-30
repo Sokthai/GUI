@@ -32,6 +32,7 @@ let rackToRack; //this only when drop directly from rack to rack. not go through
 let playLetterDropID = [] //the id for each tile we play. so that we can use it to collect the word.
 let horizonal;  //determine if the orentatoin of the letter is horizonal = true, false = vertical
 let playedWords; //the words that are played
+let player =  1; //we say player 1 alway start first.  use this because when we drop, the drop function cannot tell which player is drop the tiles to the board
 $(function () {
     let dropout = false;
     let value; //value from drag element
@@ -54,6 +55,7 @@ $(function () {
             let id = $(this).attr("id");
             let cls = $(this).attr("class");
             let star = $("#h7").attr("value"); //check if the star tile is already play
+            let letterBag;
             dropout = false;
             value = ui.draggable.attr("value");
 
@@ -70,7 +72,8 @@ $(function () {
                     gameStart = true;
                     firstDropOut = false;
                     originalId = id;
-                    changeBlankTile(ui.draggable.attr("id")); 
+                    letterBag = (player === 1)? letters : letters2;
+                    changeBlankTile(ui.draggable.attr("id"), letterBag); 
                     namespace.checkDictoinary(id, value); //checking valid words from dictionary
                     console.log("after is done");
                     console.log(letters);
@@ -131,7 +134,7 @@ $(function () {
     })
 
 
-    function changeBlankTile(id) { //replace the blank tile with any available letter in the bag
+    function changeBlankTile(id, letterBag = letters) { //replace the blank tile with any available letter in the bag
         if (value === "_") {
             let alphabet;
             let pattern = /^[a-zA-Z]/g; //accept only letter
@@ -158,13 +161,11 @@ $(function () {
                                 json.pieces.splice(index, 1); //remove the letter from bag is zero remain 
                             }
 
-                        
-                            let sindex = namespace.getIndexOf(value);
+                            availableLetter--; //because when we chagne the blank tile, we must minut one for substituion letter
+                            let sindex = namespace.getIndexOf(value, letterBag);
                             
-                            letters[sindex].letter = alphabet;
+                            letterBag[sindex].letter = alphabet;
                             
-
-
                             let image = "url('images/" + alphabet + ".jpg')";
                             value = alphabet; //becuase the value is not the "_" any more, we need to update it and pass it to the tile and dictionary checking
                             $("#" + id).css("background-image", image); //change the letter pic after select a letter
@@ -264,10 +265,10 @@ let namespace;
             playedWords = "";
             return totalCurrentScore;
         },
-        getIndexOf: function(value){
+        getIndexOf: function(value, letterBag = letters){
             let sindex = -1; //find index of the drop letter and remove it
-            for (let i = 0; i < letters.length; i++) {
-                if (value === letters[i].letter) {
+            for (let i = 0; i < letterBag.length; i++) {
+                if (value === letterBag[i].letter) {
                     // objValue = letters[i]; //save the remove elemet in case it reverted 
                     sindex = i;
                     break;
