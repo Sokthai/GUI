@@ -345,6 +345,7 @@ $(document).ready(function () {
     }
 
 
+
     function updateTile(value) {
         let index = playLetterDropID.indexOf(originalDropOutID);
         playLetterDropID[index] = originalId;
@@ -386,7 +387,9 @@ $(document).ready(function () {
     });
 
     function play(score, play, top = 80) {
-        let currentScore = parseInt($(score).text()) + ns.calculatePlayScore();
+        let playScore = ns.calculatePlayScore();
+        
+        let currentScore = parseInt($(score).text()) + playScore;
         $(score).text(currentScore);
         for (let i = 0; i < playedLetter.length; i++) {
             $("#" + playedLetter[i]).draggable("disable");
@@ -407,6 +410,8 @@ $(document).ready(function () {
         reRackLetter(letterBag, player, tileIds); //put that 7 tiles letters on the rack
         // $(this).prop("disabled", true);
     }
+
+    
 
     function swap(letterBag) { //when user want to change the their letter with the bag letter, clear all the current letters on rack and get all new 7 tiles
         console.log("remain in letter array");

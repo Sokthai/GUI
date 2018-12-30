@@ -33,6 +33,7 @@ let playLetterDropID = [] //the id for each tile we play. so that we can use it 
 let horizonal;  //determine if the orentatoin of the letter is horizonal = true, false = vertical
 let playedWords; //the words that are played
 let player =  1; //we say player 1 alway start first.  use this because when we drop, the drop function cannot tell which player is drop the tiles to the board
+let firstScore = true; // multiply by 2 with center star square (center star square is double word) when player get the first score
 $(function () {
     let dropout = false;
     let value; //value from drag element
@@ -74,7 +75,8 @@ $(function () {
                     originalId = id;
                     letterBag = (player === 1)? letters : letters2;
                     changeBlankTile(ui.draggable.attr("id"), letterBag); 
-                    namespace.checkDictoinary(id, value); //checking valid words from dictionary
+                    namespace.checkAdjacent(id, value); //checking valid words from dictionar
+
                     // console.log("after is done");
                     // console.log(letters);
                 }
@@ -160,12 +162,9 @@ $(function () {
                             if (json.pieces[index].quantity === 0) {
                                 json.pieces.splice(index, 1); //remove the letter from bag is zero remain 
                             }
-
                             availableLetter--; //because when we chagne the blank tile, we must minut one for substituion letter
                             let sindex = namespace.getIndexOf(value, letterBag);
-                            
                             letterBag[sindex].letter = alphabet;
-                            
                             let image = "url('images/" + alphabet + ".jpg')";
                             value = alphabet; //becuase the value is not the "_" any more, we need to update it and pass it to the tile and dictionary checking
                             $("#" + id).css("background-image", image); //change the letter pic after select a letter
@@ -212,18 +211,15 @@ $(function () {
 let namespace;
 
     namespace = {
-        checkDictoinary: function (id, value) {
+        checkAdjacent: function (id, value) {
             let hw = getWords(id, value); //getting horizonal words
             let vw = getWords(id, value, false); //getting vertical words
-
             if (hw.length > 1 || vw.length > 1) {
                 adjacentTile = true; //if player put letter tile next to the other tile, then ok to play
             } else {
                 adjacentTile = false;
-            }
+            }  
         },
-
-
         // calculate Score solution
         // step 1:  
         //          total each tile individually with its multiply letter if applicable
@@ -261,8 +257,9 @@ let namespace;
                     totalCurrentScore = tallyScore(true);
                 }   
             }
-
+            dict.checkWord(playedWords); //check dictionary here
             alert("you play '" + playedWords + "' for " + totalCurrentScore + " point(s)");
+            
             playedWords = "";
             return totalCurrentScore;
         },
@@ -276,12 +273,15 @@ let namespace;
                 }
             }
             return sindex;
+        },
+        winner : function(letterBag){
+
         }
     };
     window.ns = namespace; //make namespace to window level, so it can access by another external file with variable "ns"
     
     
-    function tallyScore( vertical = true){ //this function will calculate the words horizonally or vertically
+    function tallyScore( vertical = true, getAllword = false){ //this function will calculate the words horizonally or vertically
         let score1 = 0;
         let score2 = 0;
         let totalCurrentScore = 0;
@@ -300,42 +300,54 @@ let namespace;
         }
 
 
-        for (let i = 0 ; i < playLetterDropID.length; i++){  //after the word is calculate, we must calculate it indivually again since there are still words can be formed for other direction
+        for (let i = 0; i < playLetterDropID.length; i++) { //after the word is calculate, we must calculate it indivually again since there are still words can be formed for other direction
             //for vertical
             value = $("#" + playLetterDropID[i]).attr("value");
             inWords = getWords(playLetterDropID[i], value, vertical); //getting vertical word
             let start; //= (inWords.length === 1)? 1 : 0;
 
-            if (inWords.length === 1){
+            if (inWords.length === 1) {
                 start = 1;
-            }else{
+            } else {
                 start = 0;
                 playedWords += " " + inWords;
             }
 
-            for (let j = start; j < inWords.length; j++){ //getting all the vertical score. it the vertical has only one letter, do nothing
-                let vIndex = parseInt(inWords.charCodeAt(j)) - 65;
-                score2 += parseInt(json.value[vIndex].value);
-            }                     
-            cls = $("#" + playLetterDropID[i]).attr("class").slice(9, 11); //search for dl, tl, dw, or tw class for premium words
-            index = parseInt(value.charCodeAt(0) - 65);
-            if (cls === "dl"){ //apply premium word or letter to both vertical and horizonal at the same time
-                score1 += parseInt(json.value[index].value); //because we alreay add the value of the letter once, so we need to add one more time since "dl"
-                if (start === 0) {score2 += parseInt(json.value[index].value);} //if it start from 0, it means it has more than 1 letters
-            }else if(cls === "tl"){
-                score1 += (parseInt(json.value[index].value) * 2);  
-                if (start === 0) { score2 += parseInt(json.value[index].value) * 2;}
-            }else if (cls === "dw"){
 
-                multiply *= 2;   //because we can to make sure that we muliply only after every is tally correctly like dl and tl
-                if (start === 0) { score2 *= 2;}
-            }else if (cls === "tw"){
-                multiply *= 3; 
-                if (start === 0) { score2 *= 3;}
-            }           
-            totalScore2 += score2;
-            score2 = 0;
+            if (getAllword === false) { //if we only need to get the words for dictionary checking, we don't need the score
+                for (let j = start; j < inWords.length; j++) { //getting all the vertical score. it the vertical has only one letter, do nothing
+                    let vIndex = parseInt(inWords.charCodeAt(j)) - 65;
+                    score2 += parseInt(json.value[vIndex].value);
+                }
+                cls = $("#" + playLetterDropID[i]).attr("class").slice(9, 11); //search for dl, tl, dw, or tw class for premium words
+                index = parseInt(value.charCodeAt(0) - 65);
+                if (cls === "dl") { //apply premium word or letter to both vertical and horizonal at the same time
+                    score1 += parseInt(json.value[index].value); //because we alreay add the value of the letter once, so we need to add one more time since "dl"
+                    if (start === 0) {
+                        score2 += parseInt(json.value[index].value);
+                    } //if it start from 0, it means it has more than 1 letters
+                } else if (cls === "tl") {
+                    score1 += (parseInt(json.value[index].value) * 2);
+                    if (start === 0) {
+                        score2 += parseInt(json.value[index].value) * 2;
+                    }
+                } else if (cls === "dw") {
+
+                    multiply *= 2; //because we can to make sure that we muliply only after every is tally correctly like dl and tl
+                    if (start === 0) {
+                        score2 *= 2;
+                    }
+                } else if (cls === "tw") {
+                    multiply *= 3;
+                    if (start === 0) {
+                        score2 *= 3;
+                    }
+                }
+                totalScore2 += score2;
+                score2 = 0;
+            }
         }
+
         playedWords = (playedWords !== undefined)? playedWords.slice(1) : "";
         if (words.length >= 1 && totalScore2 === 0){
             playedWords = words;
@@ -348,7 +360,14 @@ let namespace;
         // alert("score1 after score is " + score1 * multiply);
         // alert("score2 score is " + totalScore2);
         totalCurrentScore = totalScore2 + (score1 * multiply);
+        if (firstScore && (getAllword === false)){ //center star is double word
+            totalCurrentScore *= 2;
+            firstScore = false;
+        } 
         return totalCurrentScore;
-     } 
+     }
+     
+    
+
 });
 
