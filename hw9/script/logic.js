@@ -261,6 +261,7 @@ let namespace;
                     totalCurrentScore = tallyScore(true);
                 }   
             }
+
             alert("you play '" + playedWords + "' for " + totalCurrentScore + " point(s)");
             playedWords = "";
             return totalCurrentScore;
@@ -335,7 +336,7 @@ let namespace;
             totalScore2 += score2;
             score2 = 0;
         }
-
+        playedWords = (playedWords !== undefined)? playedWords.slice(1) : "";
         if (words.length >= 1 && totalScore2 === 0){
             playedWords = words;
         }else if (words.length === 1 && totalScore2 > 0){

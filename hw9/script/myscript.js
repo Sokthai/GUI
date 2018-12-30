@@ -40,7 +40,7 @@ $(document).ready(function () {
                 let td = $("<td>");
                 td.addClass("gth snap").text("");
                 td.attr("id", getLetter(i) + j);
-                setBoardClass(i, j, td); //set board layout     
+                sb.setBoardClass(i, j, td); //set board layout     
                 tr.append(td); //add td to tr
             }
             tbody.append(tr); //append tr to tbody
@@ -249,7 +249,7 @@ $(document).ready(function () {
                                         if (horizonal) {
                                             let msg = "please play in straight (horizonal) line";
                                             if (newTile(playLetterDropID[0].slice(0, 1), direction.slice(0, 1), msg,
-                                                    $(this).attr("id"), $(this).attr("value")) === true) {
+                                                    $(this).attr("id"), $(this).attr("value"), letterBag) === true) {
                                                 return true;
                                             }
                                             if (checkSpaceBetween(playLetterDropID[0], originalId)) {
@@ -257,7 +257,8 @@ $(document).ready(function () {
                                             }
                                         } else { //if vertical                                  
                                             let msg = "please play in straight line (vertical) only";
-                                            if (newTile(playLetterDropID[0].slice(1), direction.slice(1), msg, $(this).attr("id"), $(this).attr("value")) === true) {
+                                            if (newTile(playLetterDropID[0].slice(1), direction.slice(1), msg, 
+                                                $(this).attr("id"), $(this).attr("value"), letterBag) === true) {
                                                 return true;
                                             }
                                             if (checkSpaceBetween(playLetterDropID[0], originalId)) {
@@ -324,7 +325,11 @@ $(document).ready(function () {
 
     function addTile(id, value, letterBag = letters) {
         playedLetter.push(id);
+        console.log("addtile before");
+        console.log(letterBag);
         letterBag.splice(ns.getIndexOf(value, letterBag), 1);
+        console.log("addtile after");
+        console.log(letterBag);
         playLetterDropID.push(originalId);
         $("#" + originalId).attr("value", value);
     }
@@ -347,22 +352,24 @@ $(document).ready(function () {
     }
 
 
-    function removeTileFromLetter(value) {
-        let sindex; //find index of the drop letter and remove it
-        for (let i = 0; i < letters.length; i++) {
-            if (value === letters[i].letter) {
-                // objValue = letters[i]; //save the remove elemet in case it reverted 
-                sindex = i;
-                break;
-            }
-        }
-        letters.splice(sindex, 1);
-    }
+    // function removeTileFromLetter(value) {
+    //     let sindex; //find index of the drop letter and remove it
+    //     for (let i = 0; i < letters.length; i++) {
+    //         if (value === letters[i].letter) {
+    //             // objValue = letters[i]; //save the remove elemet in case it reverted 
+    //             sindex = i;
+    //             break;
+    //         }
+    //     }
+    //     letters.splice(sindex, 1);
+    // }
 
     $("#play1").click(function () { //game always start with player 1
         if (!gameStart || playedLetter.length <= 0) {
             alert("Please place letter on the board to play");
         } else {
+            console.log("player1");
+            console.log(letters);
             play("#score1", 2);
             replenishRack(letters);
             $(this).prop("disabled", true);
@@ -371,6 +378,8 @@ $(document).ready(function () {
 
 
     $("#play2").click(function () {
+        console.log("player2");
+            console.log(letters2);
         play("#score2", 1, 250);
         replenishRack(letters2, 7, tileID2);
         $(this).prop("disabled", true);
@@ -423,72 +432,5 @@ $(document).ready(function () {
     function getRandomIndex() {
         return parseInt(Math.random() * 37 % json.pieces.length);
     }
-
-    function setBoardClass(i, j, td) {
-        switch (i) { //set up the class for each td for set up backround image
-            case 0:
-            case 14:
-                if (j === 0 || j === 7 || j === 14) {
-                    td.addClass("tw");
-                } else if (j === 3 || j === 11) {
-                    td.addClass("dl");
-                }
-                break;
-            case 1:
-            case 13:
-                if (j === 1 || j === 13) {
-                    td.addClass("dw");
-                } else if (j === 5 || j === 9) {
-                    td.addClass("tl");
-                }
-                break;
-            case 2:
-            case 12:
-                if (j === 2 || j === 12) {
-                    td.addClass("dw");
-                } else if (j === 6 || j === 8) {
-                    td.addClass("dl");
-                }
-                break;
-            case 3:
-            case 11:
-                if (j === 0 || j === 7 || j === 14) {
-                    td.addClass("dl");
-                } else if (j === 3 || j === 11) {
-                    td.addClass("dw");
-                }
-                break;
-            case 4:
-            case 10:
-                if (j === 4 || j === 10) {
-                    td.addClass("dw");
-                }
-                break;
-            case 5:
-            case 9:
-                if (j === 1 || j === 5 || j === 9 || j === 13) {
-                    td.addClass("tl");
-                }
-                break;
-            case 6:
-            case 8:
-                if (j === 2 || j === 6 || j === 8 || j === 12) {
-                    td.addClass("dl");
-                }
-                break;
-            default:
-                if (j === 0 || j === 14) {
-                    td.addClass("tw");
-                } else if (j === 3 || j === 11) {
-                    td.addClass("dl");
-                } else if (j === 7) {
-                    td.addClass("star");
-                }
-        }
-    }
-
-
-
-
 
 });
