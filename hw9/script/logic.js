@@ -257,11 +257,19 @@ let namespace;
                     totalCurrentScore = tallyScore(true);
                 }   
             }
-            dict.checkWord(playedWords); //check dictionary here
-            alert("you play '" + playedWords + "' for " + totalCurrentScore + " point(s)");
+             
+            let valid = dict.checkWord(playedWords); //check dictionary here
+            if (valid === true){
+                alert("you play '" + playedWords + "' for " + totalCurrentScore + " point(s)");
+                playedWords = "";
+                return totalCurrentScore;
+            }else{
+                alert("Sorry, '" + valid + "' is not a valid word");
+                return false;
+            }
+
+
             
-            playedWords = "";
-            return totalCurrentScore;
         },
         getIndexOf: function(value, letterBag = letters){
             let sindex = -1; //find index of the drop letter and remove it

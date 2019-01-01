@@ -8,20 +8,51 @@
     Updateed on 12/19/18
 */
 
-//make it global so other file can access this objects;
+// make it global so other file can access this objects;
+// jquery <=1.7.2 style
+// let json = (function () { //getting letters from json file and save to a variable
+//     var json = null;
+//     $.ajax({
+//         async: false,
+//         // 'global': false,
+//         url: "script/pieces.json",
+//         dataType: "json",
+//         error : function(jqXHR, textStatus, errorThrown){
+//             if (textStatus === "error"){
+//                 alert("Sorry, could not load the letter tile");
+//             }
+//         },
+//         success: function (data) {
+//             json = data;
+//         },
+//         // 'timeout' : 3000
+//     });
+//     return json;
+// })();
+
+
+//jquery 1.8+ version style
 let json = (function () { //getting letters from json file and save to a variable
     var json = null;
     $.ajax({
-        'async': false,
+        async: false,
         // 'global': false,
-        'url': "script/pieces.json",
-        'dataType': "json",
-        'success': function (data) {
-            json = data;
+        url: "script/pieces.json",
+        dataType: "json",
+        timeout: 1
+    }).done(function (data) {
+        json = data;
+    }).fail(function (jqXHR, textStatus) {
+        if (textStatus === "error") { //the textStatus will return either "error", "timeout", "abort", parseerror"
+            alert("Sorry, could not load the letter tile");
+        }else if (textStatus === "timeout"){
+            alert("Loading letter tile time out");
         }
     });
     return json;
 })();
+
+
 
 var letters = []; //The 7 letter tiles array for player 1
 var letters2 = [] // The 7 letter tiles array for player 2
@@ -164,9 +195,13 @@ $(document).ready(function () {
                                 letterBag.push({
                                     "letter": $(this).attr("value")
                                 });
+                                console.log("before back");
+                                console.log(playedLetter);
                                 let v = $(this).attr("id");
                                 playedLetter.splice(playedLetter.indexOf(v), 1);
                                 $("#" + dropBackToRackID).attr("value", $(this).attr("value"));
+                                console.log("after back");
+                                console.log(playedLetter);
                             } else {
                                 $("#" + originalDropOutID).attr("value", originalValue);
                                 return true;
@@ -325,11 +360,11 @@ $(document).ready(function () {
 
     function addTile(id, value, letterBag = letters) {
         playedLetter.push(id);
-        console.log("addtile before");
-        console.log(letterBag);
+        // console.log("addtile before");
+        // console.log(letterBag);
         letterBag.splice(ns.getIndexOf(value, letterBag), 1);
-        console.log("addtile after");
-        console.log(letterBag);
+        // console.log("addtile after");
+        // console.log(letterBag);
         playLetterDropID.push(originalId);
         $("#" + originalId).attr("value", value);
     }
@@ -369,44 +404,50 @@ $(document).ready(function () {
         if (!gameStart || playedLetter.length <= 0) {
             alert("Please place letter on the board to play");
         } else {
-            console.log("player1");
-            console.log(letters);
-            play("#score1", 2);
-            replenishRack(letters);
-            $(this).prop("disabled", true);
+            if (play("#score1", 2)) {
+                replenishRack(letters);
+                $(this).prop("disabled", true);
+            }
         }
     });
 
 
     $("#play2").click(function () {
-        console.log("player2");
-            console.log(letters2);
-        play("#score2", 1, 250);
-        replenishRack(letters2, 7, tileID2);
-        $(this).prop("disabled", true);
+        if (playedLetter.length <= 0) {
+            alert("please place letter on the board to play 2");
+        } else {
+            if (play("#score2", 1, 250)) {
+                replenishRack(letters2, 7, tileID2);
+                $(this).prop("disabled", true);
+            }
+        }
     });
 
     function play(score, play, top = 80) {
         let playScore = ns.calculatePlayScore();
-        
-        let currentScore = parseInt($(score).text()) + playScore;
-        $(score).text(currentScore);
-        for (let i = 0; i < playedLetter.length; i++) {
-            $("#" + playedLetter[i]).draggable("disable");
+        if (playScore === false) {
+            return false;
+        } else {
+            let currentScore = parseInt($(score).text()) + playScore;
+            $(score).text(currentScore);
+            for (let i = 0; i < playedLetter.length; i++) {
+                $("#" + playedLetter[i]).draggable("disable");
+            }
+            $("#play" + play).attr("disabled", false);
+            $("#cover").css("top", top); //this div to cover the tiles, so they can not be moved when it turn is done
+            player = play;
+            playLetterDropID.length = 0; // clear the id letters array
+            return true;
         }
-        $("#play" + play).attr("disabled", false);
-        $("#cover").css("top", top); //this div to cover the tiles, so they can not be moved when it turn is done
-        player = play;
-        playLetterDropID.length = 0; // clear the id letters array
     }
 
     function replenishRack(letterBag, player = 0, tileIds = tileID) {
         $("#availableLetter").text(availableLetter);
-        console.log("letter b bag");
-        console.log(letterBag);
+        // console.log("letter b bag");
+        // console.log(letterBag);
         generateLetter(letterBag);
-        console.log("letter bag");
-        console.log(letterBag);
+        // console.log("letter bag");
+        // console.log(letterBag);
         reRackLetter(letterBag, player, tileIds); //put that 7 tiles letters on the rack
         // $(this).prop("disabled", true);
     }

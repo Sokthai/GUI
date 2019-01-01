@@ -46,6 +46,7 @@ tr{
     /* overflow: scroll; */
     width: 610px;
     height: 580px;
+    
 }
 
 #gtable{
@@ -56,7 +57,8 @@ tr{
     display: inline-block;
     width: 600px;
     height: 571px;
-    
+    background-image: url("../../1.jpg");
+    background-size: cover;
 }
 .rack{
     /* border: 2px solid purple; */
@@ -175,6 +177,7 @@ div#cover{
     width: 430px;
     /* top: 10px; */
     /* border: 1px solid green; */
+
     
     
 }
@@ -198,6 +201,7 @@ div#cover{
     top: 0px;
     margin-left: 20px;
     background-size: cover;
+    background-image: url("../../1.jpg");
 }
 
 .tiles{
