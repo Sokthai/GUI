@@ -264,6 +264,7 @@ let namespace;
                 playedWords = "";
                 return totalCurrentScore;
             }else{
+                playedWords = "";
                 alert("Sorry, '" + valid + "' is not a valid word");
                 return false;
             }

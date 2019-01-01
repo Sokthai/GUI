@@ -195,13 +195,14 @@ $(document).ready(function () {
                                 letterBag.push({
                                     "letter": $(this).attr("value")
                                 });
-                                console.log("before back");
-                                console.log(playedLetter);
+                                console.log("before backaf");
+                                console.log(playLetterDropID);
                                 let v = $(this).attr("id");
+                                playLetterDropID.splice(playLetterDropID.indexOf(originalDropOutID), 1);
                                 playedLetter.splice(playedLetter.indexOf(v), 1);
                                 $("#" + dropBackToRackID).attr("value", $(this).attr("value"));
-                                console.log("after back");
-                                console.log(playedLetter);
+                                console.log("after backfa");
+                                console.log(playLetterDropID);
                             } else {
                                 $("#" + originalDropOutID).attr("value", originalValue);
                                 return true;
@@ -228,10 +229,7 @@ $(document).ready(function () {
                                 if (playLetterDropID.length === 0) { //if no element in array, put wherever you want
                                     addTile($(this).attr("id"), $(this).attr("value"), letterBag);
                                 } else if (playLetterDropID.length === 1) { //determine the direction of the tile after the first tile is placed (either row or column)
-                                    if (playedLetter.indexOf($(this).attr("id")) > -1) { // if the same tile. just update the palyletterDropID
-                                        if (checkSpaceBetween(playLetterDropID[0], originalId)) {
-                                            return true;
-                                        }
+                                    if (playedLetter.indexOf($(this).attr("id")) > -1) { // if the same first tile. just update the palyletterDropID wherever you want
                                         let index = playLetterDropID.indexOf(originalDropOutID);
                                         playLetterDropID[index] = originalId;
                                         $("#" + originalId).attr("value", $(this).attr("value"));

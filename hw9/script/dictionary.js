@@ -25,7 +25,7 @@ $(function () {
 
         for (let i = 0; i < curLetters.length; i++){
             if (!dict[curLetters[i]]){
-                invalidWord += curLetters[i];
+                invalidWord += " " + curLetters[i];
             }
         }
         return invalidWord; //return the invalid word is any
@@ -38,7 +38,7 @@ $(function () {
             if (invalidWord === ""){
                 return true; //return true is all words are valid
             }else{
-                return invalidWord; //retuen the invalid word if any
+                return invalidWord.slice(1); //retuen the invalid word if any
             }
         }
     };

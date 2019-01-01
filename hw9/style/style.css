@@ -57,7 +57,7 @@ tr{
     display: inline-block;
     width: 600px;
     height: 571px;
-    background-image: url("../../1.jpg");
+    /* background-image: url("../../1.jpg"); */
     background-size: cover;
 }
 .rack{
@@ -201,7 +201,7 @@ div#cover{
     top: 0px;
     margin-left: 20px;
     background-size: cover;
-    background-image: url("../../1.jpg");
+    /* background-image: url("../../1.jpg"); */
 }
 
 .tiles{
