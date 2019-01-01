@@ -265,6 +265,9 @@ let namespace;
                 return totalCurrentScore;
             }else{
                 playedWords = "";
+                if ($("#score1").text() === "0"){  //we need to set the center square back to true for doulbe word since it become false even the word is not a valid word
+                    firstScore = true;
+                }
                 alert("Sorry, '" + valid + "' is not a valid word");
                 return false;
             }
@@ -323,7 +326,6 @@ let namespace;
             }
 
 
-            if (getAllword === false) { //if we only need to get the words for dictionary checking, we don't need the score
                 for (let j = start; j < inWords.length; j++) { //getting all the vertical score. it the vertical has only one letter, do nothing
                     let vIndex = parseInt(inWords.charCodeAt(j)) - 65;
                     score2 += parseInt(json.value[vIndex].value);
@@ -354,7 +356,7 @@ let namespace;
                 }
                 totalScore2 += score2;
                 score2 = 0;
-            }
+            
         }
 
         playedWords = (playedWords !== undefined)? playedWords.slice(1) : "";
@@ -369,7 +371,7 @@ let namespace;
         // alert("score1 after score is " + score1 * multiply);
         // alert("score2 score is " + totalScore2);
         totalCurrentScore = totalScore2 + (score1 * multiply);
-        if (firstScore && (getAllword === false)){ //center star is double word
+        if (firstScore){ //center star is double word
             totalCurrentScore *= 2;
             firstScore = false;
         } 
