@@ -182,6 +182,7 @@ $(document).ready(function () {
                 revert: function (event, ui) {
 
                     if (putBack) {
+                        
                         console.log("from ? " + dropoutFromRackID);
                         if (dropoutFromRackID) { //when drop back from rack to rack
                             if (dropBackToRackID === undefined) { //revert back when occupied
@@ -195,14 +196,10 @@ $(document).ready(function () {
                                 letterBag.push({
                                     "letter": $(this).attr("value")
                                 });
-                                console.log("before backaf");
-                                console.log(playLetterDropID);
                                 let v = $(this).attr("id");
                                 playLetterDropID.splice(playLetterDropID.indexOf(originalDropOutID), 1);
                                 playedLetter.splice(playedLetter.indexOf(v), 1);
                                 $("#" + dropBackToRackID).attr("value", $(this).attr("value"));
-                                console.log("after backfa");
-                                console.log(playLetterDropID);
                             } else {
                                 $("#" + originalDropOutID).attr("value", originalValue);
                                 return true;
@@ -210,6 +207,7 @@ $(document).ready(function () {
                         }
                         dropoutFromRackID = false;
                         putBack = false;
+                        pass();
                         return false; //allow to put back to stand
                     }
                     if (gameStart) { //game start after the star grid is occupied
@@ -217,6 +215,7 @@ $(document).ready(function () {
                             firstTile = false;
                             $(this).draggable("disable");
                             addTile($(this).attr("id"), $(this).attr("value"), letterBag);
+                            pass();
                             return false; //first tile always put in the center/star tile
                         } else {
                             if (revert) { //if the grid already occupied, revert it
@@ -300,6 +299,7 @@ $(document).ready(function () {
                                         }
                                     }
                                 }
+                                pass();
                                 return false; // no revert
                             } else {
                                 $("#" + originalId).removeAttr("value");
@@ -309,6 +309,7 @@ $(document).ready(function () {
                                 return true; //revert
                             }
                         }
+                        
                     } else {
                         $("#" + dropBackToRackID).attr("value", $(this).attr("value"));
                         alert("Please start the game from the star tile ");
@@ -320,6 +321,22 @@ $(document).ready(function () {
                     // value = $(this).attr("value"); //save current value when play drop to droppable
                 }
             });
+        }
+    }
+
+    function pass(){
+        if (playing === 1){
+            if (playedLetter.length > 0){
+                $("#pass1").attr("disabled", true);
+            }else{
+                $("#pass1").attr("disabled", false);
+            }
+        }else{
+            if (playedLetter.length > 0){
+                $("#pass2").attr("disabled", true);
+            }else{
+                $("#pass2").attr("disabled", false);
+            }
         }
     }
 
@@ -406,6 +423,7 @@ $(document).ready(function () {
                 replenishRack(letters);
                 $(this).prop("disabled", true);
                 $("#pass1").attr("disabled", true);
+                playing = 2;
             }
         }
     });
@@ -419,6 +437,7 @@ $(document).ready(function () {
                 replenishRack(letters2, 7, tileID2);
                 $(this).prop("disabled", true);
                 $("#pass2").attr("disabled", true);
+                playing = 1;
             }
         }
     });
@@ -461,6 +480,7 @@ $(document).ready(function () {
         $("#play2").attr("disabled", false);
         $("#pass2").attr("disabled", false);
         $("#cover").css("top", 80); //this div to cover the tiles, so they can not be moved when it turn is done
+        playing = 2;
     });
 
     $("#pass2").click(function(){
@@ -469,6 +489,7 @@ $(document).ready(function () {
         $("#play1").attr("disabled", false);
         $("#pass1").attr("disabled", false);
         $("#cover").css("top", 250); //this div to cover the tiles, so they can not be moved when it turn is done
+        playing = 1;
     });
 
 

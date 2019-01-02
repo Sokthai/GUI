@@ -34,6 +34,7 @@ let horizonal;  //determine if the orentatoin of the letter is horizonal = true,
 let playedWords; //the words that are played
 let player =  1; //we say player 1 alway start first.  use this because when we drop, the drop function cannot tell which player is drop the tiles to the board
 let firstScore = true; // multiply by 2 with center star square (center star square is double word) when player get the first score
+let playing = 1; //who is playing . player 1 or 2;
 $(function () {
     let dropout = false;
     let value; //value from drag element
