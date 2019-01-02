@@ -405,6 +405,7 @@ $(document).ready(function () {
             if (play("#score1", 2)) {
                 replenishRack(letters);
                 $(this).prop("disabled", true);
+                $("#pass1").attr("disabled", true);
             }
         }
     });
@@ -417,6 +418,7 @@ $(document).ready(function () {
             if (play("#score2", 1, 250)) {
                 replenishRack(letters2, 7, tileID2);
                 $(this).prop("disabled", true);
+                $("#pass2").attr("disabled", true);
             }
         }
     });
@@ -432,6 +434,7 @@ $(document).ready(function () {
                 $("#" + playedLetter[i]).draggable("disable");
             }
             $("#play" + play).attr("disabled", false);
+            $("#pass" + play).attr("disabled", false);
             $("#cover").css("top", top); //this div to cover the tiles, so they can not be moved when it turn is done
             player = play;
             playLetterDropID.length = 0; // clear the id letters array
@@ -450,13 +453,39 @@ $(document).ready(function () {
         // $(this).prop("disabled", true);
     }
 
+
+
+    $("#pass1").click(function(){
+        $(this).prop("disabled", true);
+        $("#play1").attr("disabled", true);
+        $("#play2").attr("disabled", false);
+        $("#pass2").attr("disabled", false);
+        $("#cover").css("top", 80); //this div to cover the tiles, so they can not be moved when it turn is done
+    });
+
+    $("#pass2").click(function(){
+        $(this).prop("disabled", true);
+        $("#play2").attr("disabled", true);
+        $("#play1").attr("disabled", false);
+        $("#pass1").attr("disabled", false);
+        $("#cover").css("top", 250); //this div to cover the tiles, so they can not be moved when it turn is done
+    });
+
+
     
+    $("#swap1").click(function(){
+        swap(letters);
+    });
+
+    $("#swap2").click(function(){
+        swap(letters2);
+    });
 
     function swap(letterBag) { //when user want to change the their letter with the bag letter, clear all the current letters on rack and get all new 7 tiles
         console.log("remain in letter array");
-        console.log(letters);
-        for (let i = 0; i < letters.length; i++) {
-            let l = letters[i].letter;
+        console.log(letterBag);
+        for (let i = 0; i < letterBag.length; i++) {
+            let l = letterBag[i].letter;
             let index = getLetterPosition(l); //calculate the index of json
             if (index === undefined) { //create new obj if that particular letter is deleted
                 let obj = {
@@ -469,7 +498,7 @@ $(document).ready(function () {
             }
             availableLetter++;
         }
-        letters.length = 0; //clear letter array
+        letterBag.length = 0; //clear letter array
         replenishRack(letterBag);
     }
 

@@ -1,25 +1,16 @@
 body{
-    /* background-color: pink; */
-
-    background-image: url("../images/beach.jpg");
-    
-    background-repeat: no-repeat;
-    /* background-size: cover; */
-    
+    background-image: url("../images/beach.jpg");  
+    background-repeat: repeat;
     min-width: 700px;
     font-family: 'Times New Roman', Times, serif;
-    font-weight: bold;}
-
-
-
-
+    font-weight: bold;
+}
 
 .gth{
     /* background-image: url("../images/tw.png"); */
     background-size: 100%;
     /* padding-bottom: 50px; */
 }
-
 
 td{
     border: 1px solid green;
@@ -32,8 +23,8 @@ tr{
 
 }
 #scrabble{
-    /* border: 2px solid blue; */
     position: relative;
+    margin: auto;
 }
 
 #table{
@@ -42,7 +33,7 @@ tr{
     padding: 5px;
     margin: auto;
     display: inline-block;
-    margin-left: 50px;
+    margin-left: 40px;
     /* overflow: scroll; */
     width: 610px;
     height: 580px;
@@ -114,7 +105,11 @@ tr{
 }
 
 .play{  
-    left: 100px;
+    left: 170px;
+}
+
+.pass{
+    left: 95px;
 }
 
 .button{
@@ -161,8 +156,7 @@ div#cover{
     position: absolute;
     width: 430px;
     height: 130px;
-    border: 1px solid red;
-    /* background-color: yellowgreen; */
+    border: 2px solid red;
     top: 250px;
     z-index: 1;
     margin-left: 80px;
@@ -193,14 +187,14 @@ div#cover{
 
 
 #playerBoard{
-    border: 5px solid green;
+    border: 5px solid peru;
     display: inline-block;
     width: 600px;
     height: 590px;
     position: absolute;
     top: 0px;
     margin-left: 20px;
-    background-size: cover;
+    /* background-size: cover; */
     /* background-image: url("../../1.jpg"); */
 }
 
@@ -223,7 +217,8 @@ div#cover{
 .ui-draggable-disabled{
     cursor: default;
     /* outline: red solid 1px;  */
-    border-left: 2px solid red;
+    border: 2px solid red;
+    width: 93%;
     opacity: .9;
 }
 
@@ -255,13 +250,18 @@ div#cover{
 @media screen and (max-width: 1100px) {
     body {
       background-color: lightgreen;
-      /* background-image: url("../images/ScrabbleBoard.jpg"); */
     }
     #playerBoard{
         display: block;
         top: 600px;
         width: 620px;
         margin: 10px 50px;
-        left: 0px;
+        margin: auto;
+        left: 25px;
     }
+    #table{
+        display: block;
+        margin-left: 25px;
+    }
+
   }
