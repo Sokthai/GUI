@@ -256,6 +256,7 @@ div#cover{
         top: 600px;
         width: 620px;
         margin: 10px 50px;
+        margin: auto;
         left: 40px;
     }
     #table{
