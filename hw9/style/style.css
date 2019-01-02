@@ -256,12 +256,11 @@ div#cover{
         top: 600px;
         width: 620px;
         margin: 10px 50px;
-        margin: auto;
-        left: 30px;
+        left: 40px;
     }
     #table{
         display: block;
-        margin-left: 30px;
+        margin-left: 40px;
     }
 
   }
