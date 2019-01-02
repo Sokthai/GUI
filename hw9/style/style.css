@@ -258,7 +258,7 @@ div#cover{
         margin: 10px 50px;
         margin: auto;
         left: 50px;
-        
+        border: 5px solid rebeccapurple;
     }
     #table{
         display: block;
