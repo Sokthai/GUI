@@ -187,7 +187,7 @@ div#cover{
 
 
 #playerBoard{
-    border: 5px solid peru;
+    border: 5px solid green;
     display: inline-block;
     width: 600px;
     height: 590px;
@@ -258,6 +258,7 @@ div#cover{
         margin: 10px 50px;
         margin: auto;
         left: 50px;
+        
     }
     #table{
         display: block;
