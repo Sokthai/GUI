@@ -402,28 +402,20 @@ $(document).ready(function () {
         $("#" + originalId).attr("value", value);
     }
 
-
-    // function removeTileFromLetter(value) {
-    //     let sindex; //find index of the drop letter and remove it
-    //     for (let i = 0; i < letters.length; i++) {
-    //         if (value === letters[i].letter) {
-    //             // objValue = letters[i]; //save the remove elemet in case it reverted 
-    //             sindex = i;
-    //             break;
-    //         }
-    //     }
-    //     letters.splice(sindex, 1);
-    // }
-
     $("#play1").click(function () { //game always start with player 1
         if (!gameStart || playedLetter.length <= 0) {
             alert("Please place letter on the board to play");
         } else {
+            let winner = ns.winner();
             if (play("#score1", 2)) {
-                replenishRack(letters);
-                $(this).prop("disabled", true);
-                $("#pass1").attr("disabled", true);
-                playing = 2;
+                if (!winner) { //if the game is not over.
+                    replenishRack(letters);
+                    $(this).prop("disabled", true);
+                    $("#pass1").attr("disabled", true);
+                    playing = 2;
+                } else {
+                    gameOver(winner);
+                }
             }
         }
     });
@@ -433,14 +425,37 @@ $(document).ready(function () {
         if (playedLetter.length <= 0) {
             alert("please place letter on the board to play 2");
         } else {
+            let winner = ns.winner();
             if (play("#score2", 1, 250)) {
-                replenishRack(letters2, 7, tileID2);
-                $(this).prop("disabled", true);
-                $("#pass2").attr("disabled", true);
-                playing = 1;
+                if (!winner) { //if the game is not over.
+                    replenishRack(letters2, 7, tileID2);
+                    $(this).prop("disabled", true);
+                    $("#pass2").attr("disabled", true);
+                    playing = 1;
+                } else {
+                    gameOver(winner);
+                }
             }
         }
     });
+
+    function gameOver(winner){
+
+        switch (winner.winner){
+            case 1: //player1 win
+                $("#score1").text(winner.totalScore); 
+                $("#score1").css("color", "red");
+                alert("Player1 Win");
+                break;
+            case 2:    
+                $("#score2").text(winner.totalScore); 
+                $("#score2").css("color", "red");
+                alert("Player2 win");
+                break;
+            default:
+                alert("The game is Tie");
+        }
+    }
 
     function play(score, play, top = 80) {
         let playScore = ns.calculatePlayScore();

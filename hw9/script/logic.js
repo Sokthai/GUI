@@ -136,13 +136,26 @@ $(function () {
         }
     })
 
+    //how to set value of BLANK tile to 0
+    //solution:
+    //instead of changing the value of the letterbag array to the substituion value (like "A", "B" ...)
+    //we prepend that letter to the "_" it will look like "A_" , or "B_" instead of changing "_" to "A" or "B", (line 182 "letterBag[sindex].letter = alphabet;")
+    //this way when we try to set the value to the square board(<td>), we set only the value of "A" or "B" (first letter) 
+    //to the value of the <td> square board, and add a css class called "blank" that <td> square board.
+    //so the <td> square value is still consistent and the integrity of the program is still hold.
+    //for the value that doesn't have "_", we don't add class to it.
+    //when calculate the score, we check for the "blank" class, if it is, we ignore its value 
+    //we can do css style to that blank tile to make player aware it is a blank tile.(change border color maybe)
+    //NOTE: base on Scrabble offical rule.
+    //The Blank tile is worth 0 point, but if we place it on "double Word" or "tripple word", 
+    //The whole word still muitiply by either double or tripple
+    //I don't implement this Blank tile at this moment (Jan/03/19)
 
     function changeBlankTile(id, letterBag = letters) { //replace the blank tile with any available letter in the bag
         if (value === "_") {
             let alphabet;
             let pattern = /^[a-zA-Z]/g; //accept only letter
             let index;
-
             let valid = false;
             do {
                 alphabet = prompt("Please enter an alphabet only");
@@ -287,12 +300,37 @@ let namespace;
             }
             return sindex;
         },
-        winner : function(letterBag){
-
+        winner : function(){
+            if ((letters.length <= 0 || letters2.length <= 0) && availableLetter <= 0){ //if no more letter in the bag and one of the players run out of letter on the rack
+                let player1Score = $("#score1").text()                ;
+                let player2Score = $("#score2").text()                ;
+                let winner, totalScore;
+                if (parseInt(player1Score) > parseInt(player2Score)){ //if player1 win
+                    totalScore = getUnplayScore(letters2) + player1Score;
+                    winner = 1;
+                }else if (parseInt(player2Score) > parseInt(player2Score)){ //if player2 win
+                    totalScore = getUnplayScore(letters2) + player1Score;
+                    winner = 2;
+                }else{ //if tie
+                    totalScore = getUnplayScore(letters1);
+                    winner = 0; 
+                }
+                return {"winner" : winner, "totalScore" : totalScore}; //return an object of winner with total score
+            }else{
+                return false; //if game not over
+            }
         }
     };
     window.ns = namespace; //make namespace to window level, so it can access by another external file with variable "ns"
     
+    function getUnplayScore(letterBag){ //getting the sum of the unplay letter
+        let index, score = 0;
+        for (let i = 0 ; i < letterBag.length; i++){ //first it calculate the score either vertically or hoizonally
+            index = parseInt(letterBag.charCodeAt(i) - 65);
+            score += parseInt(json.value[index].value);
+        }
+        return score;
+    }
     
     function tallyScore( vertical = true, getAllword = false){ //this function will calculate the words horizonally or vertically
         let score1 = 0;
