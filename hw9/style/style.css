@@ -3,12 +3,8 @@ body{
     background-repeat: repeat;
     min-width: 700px;
     font-family: 'Times New Roman', Times, serif;
-<<<<<<< HEAD
     font-weight: bold;
 }
-=======
-    font-weight: bold;}
->>>>>>> f559d35a61fe96a868269ce66c34a025fa2a288d
 
 .gth{
     /* background-image: url("../images/tw.png"); */
@@ -97,35 +93,23 @@ tr{
     left: 20px;
 }
 
-<<<<<<< HEAD
 .button:disabled{
-=======
-.swap:disabled{
->>>>>>> f559d35a61fe96a868269ce66c34a025fa2a288d
     color: gray;
     background-image: url("../images/disableButton.png");
 }
 
-<<<<<<< HEAD
 .button:disabled:hover{
-=======
-.swap:disabled:hover{
->>>>>>> f559d35a61fe96a868269ce66c34a025fa2a288d
     box-shadow: none;
     cursor: default;
 
 }
 
 .play{  
-<<<<<<< HEAD
     left: 170px;
 }
 
 .pass{
     left: 95px;
-=======
-    left: 100px;
->>>>>>> f559d35a61fe96a868269ce66c34a025fa2a288d
 }
 
 .button{
@@ -164,7 +148,6 @@ tr{
     border: 1px solid blue;
     width: 430px;
     height: 130px;
-<<<<<<< HEAD
     margin-left: 80px;
     z-index: auto;
 }
@@ -176,9 +159,6 @@ div#cover{
     border: 2px solid red;
     top: 250px;
     z-index: 1;
-=======
-    
->>>>>>> f559d35a61fe96a868269ce66c34a025fa2a288d
     margin-left: 80px;
 }
 

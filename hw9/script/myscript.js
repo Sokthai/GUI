@@ -183,7 +183,7 @@ $(document).ready(function () {
 
                     if (putBack) {
                         
-                        console.log("from ? " + dropoutFromRackID);
+                        // console.log("from ? " + dropoutFromRackID);
                         if (dropoutFromRackID) { //when drop back from rack to rack
                             if (dropBackToRackID === undefined) { //revert back when occupied
                                 $("#" + rackToRack).attr("value", $(this).attr("value"));
