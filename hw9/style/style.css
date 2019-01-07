@@ -1,25 +1,16 @@
 body{
-    /* background-color: pink; */
-
-    background-image: url("../images/beach.jpg");
-    
-    background-repeat: no-repeat;
-    /* background-size: cover; */
-    
+    background-image: url("../images/beach.jpg");  
+    background-repeat: repeat;
     min-width: 700px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
 }
-
-
-
-
 
 .gth{
     /* background-image: url("../images/tw.png"); */
     background-size: 100%;
     /* padding-bottom: 50px; */
 }
-
 
 td{
     border: 1px solid green;
@@ -32,8 +23,8 @@ tr{
 
 }
 #scrabble{
-    /* border: 2px solid blue; */
     position: relative;
+    margin: auto;
 }
 
 #table{
@@ -42,10 +33,11 @@ tr{
     padding: 5px;
     margin: auto;
     display: inline-block;
-    margin-left: 50px;
+    margin-left: 40px;
     /* overflow: scroll; */
     width: 610px;
     height: 580px;
+    
 }
 
 #gtable{
@@ -56,15 +48,17 @@ tr{
     display: inline-block;
     width: 600px;
     height: 571px;
-    
+    /* background-image: url("../../1.jpg"); */
+    background-size: cover;
 }
-#rack{
+.rack{
     /* border: 2px solid purple; */
     position: absolute;
     width: 420px;
     height: 60px;
     background-image: url("../images/rack.png");
     background-size: 100% 100%;
+    bottom: 40px;
 }
 
 #stand{
@@ -91,22 +85,31 @@ tr{
     position: relative;
 }
 
-#swap{
+#swap1{
     left: 20px;
 }
 
-#swap:disabled{
+#swap2{
+    left: 20px;
+}
+
+.button:disabled{
     color: gray;
     background-image: url("../images/disableButton.png");
 }
 
-#swap:disabled:hover{
+.button:disabled:hover{
     box-shadow: none;
+    cursor: default;
 
 }
 
-#play{  
-    left: 100px;
+.play{  
+    left: 170px;
+}
+
+.pass{
+    left: 95px;
 }
 
 .button{
@@ -123,6 +126,7 @@ tr{
     cursor: pointer;
     border-radius: 4px;
     width: 70px;
+    /* left: 20px; */
     
 }
 
@@ -130,25 +134,44 @@ tr{
     box-shadow: 2px 2px 5px gray;
 }
 
-#player{
+#player1{
+    top: 80px;
+}
+
+
+#player2{
+    top: 250px;
+}
+
+.player{
     position: absolute;
     /* border: 1px solid blue; */
     width: 430px;
-    height: 100px;
-    top: 80px;
+    height: 130px;
     margin-left: 80px;
-    
+    z-index: auto;
 }
 
-.scoreBoard{
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: bold;
-    margin-left : 80px;
+div#cover{
     position: absolute;
-    height: 60px;
     width: 430px;
-    top: 10px;
+    height: 130px;
+    border: 2px solid red;
+    top: 250px;
+    z-index: 1;
+    margin-left: 80px;
+}
+
+
+.scoreBoard{
+ 
+    /* margin-left : 80px; */
+    position: absolute;
+    /* height: 60px; */
+    width: 430px;
+    /* top: 10px; */
     /* border: 1px solid green; */
+
     
     
 }
@@ -171,7 +194,8 @@ tr{
     position: absolute;
     top: 0px;
     margin-left: 20px;
-    background-size: cover;
+    /* background-size: cover; */
+    /* background-image: url("../../1.jpg"); */
 }
 
 .tiles{
@@ -193,9 +217,14 @@ tr{
 .ui-draggable-disabled{
     cursor: default;
     /* outline: red solid 1px;  */
-    border-left: 2px solid red;
+    border: 2px solid red;
+    width: 90%;
+    height: 93%;
     opacity: .9;
 }
+
+
+
 
 
 /* set images for scrabble board */
@@ -222,13 +251,20 @@ tr{
 @media screen and (max-width: 1100px) {
     body {
       background-color: lightgreen;
-      /* background-image: url("../images/ScrabbleBoard.jpg"); */
     }
     #playerBoard{
         display: block;
         top: 600px;
         width: 620px;
         margin: 10px 50px;
-        left: 0px;
+        margin: auto;
+        left: 35px;
+        margin-top: 10px;
+        
     }
+    #table{
+        display: block;
+        margin-left: 35px;
+    }
+
   }
